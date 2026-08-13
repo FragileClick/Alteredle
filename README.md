@@ -1,2 +1,2 @@
 # Alteredle
-Card guessing game for Altered TCG
+> Card guessing game for Altered TCG
