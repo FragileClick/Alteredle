@@ -272,45 +272,52 @@ function player_guess(card) {
     // If player guessed the correct card
     // the game is over
     if (card == TARGET_CARD) {
-        // Hide input and show result
-        game_search_input.classList.add('hidden')
-        countdown.classList.remove('hidden')
-        game_result_success.classList.remove('hidden')
-        share_button.classList.remove('hidden')
-
         // Redraw text
         setLanguage()
 
-        // Scroll to bottom
+        // Show result and scoll to bottom
         setTimeout(() => {
+            game_result_success.classList.remove('hidden')
+            share_button.classList.remove('hidden')
+
             window.scrollTo({
                 top: document.body.scrollHeight,
                 left: 0,
                 behavior: 'smooth'
             });
         }, 3500);
+
+        // Hide input and show countdown
+        setTimeout(() => {
+            game_search_input.classList.add('hidden')
+            countdown.classList.remove('hidden')
+        }, 4000);
     }
 
     // If player ran out of guess attempts
     // the game is over
     if (PLAYER_GUESS_CURRENT >= PLAYER_GUESS_TOTAL) {
-        // Hide input and show result
-        game_search_input.classList.add('hidden')
-        countdown.classList.remove('hidden')
-        game_result_failure.classList.remove('hidden')
-        share_button.classList.remove('hidden')
 
         // Redraw text
         setLanguage()
 
-        // Scroll to bottom
+        // Show result and scoll to bottom
         setTimeout(() => {
+            game_result_failure.classList.remove('hidden')
+
             window.scrollTo({
                 top: document.body.scrollHeight,
                 left: 0,
                 behavior: 'smooth'
             });
         }, 3500);
+
+        // Hide input and show countdown
+        setTimeout(() => {
+            game_search_input.classList.add('hidden')
+            countdown.classList.remove('hidden')
+
+        }, 4000);
     }
 }
 

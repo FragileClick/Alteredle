@@ -254,12 +254,13 @@ button:focus {
 .game_result img {
     max-width: 350px;
     border-radius: 14px;
+    filter: drop-shadow(0 0 0.75rem gray);
 }
 .game_result h1 {
     margin-bottom: 0px;
 }
 .game_result p {
-    margin: 8px 0 16px 0;
+    margin: 8px 0 1.5em 0;
 }
 #countdown h1 {
     margin: 8px 0;
@@ -274,6 +275,8 @@ a {
 
 .watermark {
     width: 80px;
+    transform: translateY(3px);
+    margin-left: 0.25em;
 }
 
 #language_toggle {
