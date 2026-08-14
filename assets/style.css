@@ -213,6 +213,7 @@ hr {
     display: flex;
     gap: 14px;
     align-items: center;
+    height: 60px;
 }
 
 .player-input-autocomplete li.selected {

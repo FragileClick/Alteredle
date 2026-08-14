@@ -148,7 +148,7 @@ function player_search(self) {
             game_search_autocomplete.appendChild(li)
 
             // Show the the top 10 results, at most
-            if (i>10) {
+            if (i>3) {
                 break
             }
         }
@@ -200,7 +200,7 @@ function player_guess(card) {
             guess_card.src = card.img_fr
         }, 500); 
         setTimeout(() => {
-            guess_set.src = set_img['fr'][card.set-1]
+            guess_set.src = set_img['fr'][card.set]
             if (card.set == TARGET_CARD.set) {
                 tile_set.classList.add('true')
             } else {
@@ -236,7 +236,7 @@ function player_guess(card) {
             guess_card.src = card.img_en
         }, 500); 
         setTimeout(() => {
-            guess_set.src = set_img['en'][card.set-1]
+            guess_set.src = set_img['en'][card.set]
             if (card.set == TARGET_CARD.set) {
                 tile_set.classList.add('true')
             } else {
@@ -278,7 +278,7 @@ function player_guess(card) {
         // Show result and scoll to bottom
         setTimeout(() => {
             game_result_success.classList.remove('hidden')
-            share_button.classList.remove('hidden')
+            // share_button.classList.remove('hidden') # Don't release share button until it works across browsers
 
             window.scrollTo({
                 top: document.body.scrollHeight,
@@ -304,7 +304,6 @@ function player_guess(card) {
         // Show result and scoll to bottom
         setTimeout(() => {
             game_result_failure.classList.remove('hidden')
-
             window.scrollTo({
                 top: document.body.scrollHeight,
                 left: 0,
@@ -339,4 +338,5 @@ function shareScore() {
     }
 }
 
+// After initializing, draw text to page
 setLanguage()
