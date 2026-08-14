@@ -1,3 +1,5 @@
+// https://www.w3schools.com/howto/howto_js_countdown.asp
+
 // Set the date we're counting down to
 const resetTimestamp = new Date();
 resetTimestamp.setDate(resetTimestamp.getDate() + 1);

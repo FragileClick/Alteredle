@@ -1,12 +1,22 @@
 
-const set_img = [
-    "https://cdn.alteredcore.org/marketing/sets_logo/LOGO BTG-EN.png",
-    "https://cdn.alteredcore.org/marketing/sets_logo/ALT_TBF_LOGO_en_EN.png",
-    "https://cdn.alteredcore.org/marketing/sets_logo/ALT_WFM_LOGO_en_EN.png",
-    "https://cdn.alteredcore.org/marketing/sets_logo/ALT_SKY_LOGO_en_EN.png",
-    "https://cdn.alteredcore.org/marketing/sets_logo/ALT_SDU_LOGO_EN.png",
-    "https://cdn.alteredcore.org/marketing/sets_logo/ALT_ROC_LOGO_en_EN.png"
-]
+const set_img = {
+    "en": [
+        "https://cdn.alteredcore.org/marketing/sets_logo/LOGO BTG-EN.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_TBF_LOGO_en_EN.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_WFM_LOGO_en_EN.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_SKY_LOGO_en_EN.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_SDU_LOGO_EN.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_ROC_LOGO_en_EN.png"
+    ],
+    "fr": [
+        "https://cdn.alteredcore.org/marketing/sets_logo/LOGO BTG-FR.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_TBF_LOGO_fr_FR.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_WFM_LOGO_fr_FR.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_SKY_LOGO_fr_FR.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_SDU_LOGO_FR.png",
+        "https://cdn.alteredcore.org/marketing/sets_logo/ALT_ROC_LOGO_fr_FR.png"
+    ]
+}
 
 const faction_img = [
     "https://cdn.alteredcore.org/marketing/game_assets/faction_banners/AXIOM-faction-banner.png",
@@ -30,7 +40,8 @@ const text = {
         "result_subtitle_success": "You guessed <b>CARD_NAME</b> in <b>ATTEMPTS</b> tries.",
         "result_title_failure": "So close!",
         "result_subtitle_failure": "The card was <b>CARD_NAME</b>.",
-        "footer_attribution_article": "by"
+        "footer_attribution_article": "by",
+        "share_button": "SHARE"
     },
     "fr": {
         "hero_text": "Jeu de devinettes de cartes pour ",
@@ -44,7 +55,8 @@ const text = {
         "result_subtitle_success": "Vous avez deviné <b>CARD_NAME</b> en <b>ATTEMPTS</b> essais.",
         "result_title_failure": "Presque!",
         "result_subtitle_failure": "La carte était <b>CARD_NAME</b>.",
-        "footer_attribution_article": "de"
+        "footer_attribution_article": "de",
+        "share_button": "PARTAGER"
     }
 }
 

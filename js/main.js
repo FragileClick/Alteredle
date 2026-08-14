@@ -14,16 +14,27 @@ const game_board_header_subtype = document.getElementById('game_board_header_sub
 const countdown_title = document.getElementById('countdown_title') 
 const result_title_success = document.getElementById('result_title_success') 
 const result_subtitle_success = document.getElementById('result_subtitle_success') 
+const game_result_img_success = document.getElementById('game_result_img_success')
 const result_title_failure = document.getElementById('result_title_failure') 
 const result_subtitle_failure = document.getElementById('result_subtitle_failure')
+const game_result_img_failure = document.getElementById('game_result_img_failure')
 const footer_attribution_article = document.getElementById('footer_attribution_article')
 const language_toggle_fr = document.getElementById('language_toggle_fr')
 const language_toggle_en = document.getElementById('language_toggle_en')
+const share_button = document.getElementById('share_button')
 // GAME VARIABLES
 var TARGET_CARD          = cards[0]
 var PLAYER_GUESS_CURRENT = 0
 var PLAYER_GUESS_TOTAL   = 6
-var LANGUAGE             = 'en'
+
+// Set langauge french if browser is in french 
+// otherwise default to english
+if (navigator.language.includes('fr')) {
+    var LANGUAGE = 'fr'
+} else {
+    var LANGUAGE = 'en'
+}
+
 // DATABASE SEARCH INDEX
 const fuse_en = new Fuse(cards, {keys: ['name_en']})
 const fuse_fr = new Fuse(cards, {keys: ['name_fr']})
@@ -43,6 +54,7 @@ function setLanguage() {
     result_title_failure.innerText = copy.result_title_failure
     result_subtitle_failure.innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_en)
     footer_attribution_article.innerText = copy.footer_attribution_article
+    share_button.innerText = copy.share_button
 
     // Update language toggle icon
     if (LANGUAGE=='fr') {
@@ -52,6 +64,17 @@ function setLanguage() {
         language_toggle_en.classList.remove('translucent')
         language_toggle_fr.classList.add('translucent')
     }
+
+    // Add image
+    if (LANGUAGE == 'fr') {
+        game_result_img_success.src = TARGET_CARD.img_fr
+        game_result_img_failure.src = TARGET_CARD.img_fr
+    } else {
+        game_result_img_success.src = TARGET_CARD.img_en
+        game_result_img_failure.src = TARGET_CARD.img_en
+    }
+
+
 }
 
 function toggleLanguage() {
@@ -139,6 +162,15 @@ game_search_autocomplete.addEventListener('click', function(e) {
     player_guess(e.target.card)
 });
 
+// Handle callback when player hits ENTER to submit guess
+document.onkeydown = function(e) {
+    if(event.keyCode == '13') {
+        var e = document.getElementsByClassName('selected')[0]
+        player_guess(e.card)
+    }
+};
+
+
 // This function handles when a player submits a guess
 // It accepts the selected card and writes the values
 // to the gameboard.
@@ -164,39 +196,77 @@ function player_guess(card) {
 
     // Write guess card attributes to gameboard
     if (LANGUAGE=='fr') {
-        guess_card.src = card.img_fr
-        guess_set.src = set_img[card.set-1]
-        guess_faction.src = faction_img[card.faction-1]
-        guess_type.innerText = card.type_fr
-        guess_subtype.innerText = card.subtype_fr
+       setTimeout(() => {
+            guess_card.src = card.img_fr
+        }, 500); 
+        setTimeout(() => {
+            guess_set.src = set_img['fr'][card.set-1]
+            if (card.set == TARGET_CARD.set) {
+                tile_set.classList.add('true')
+            } else {
+                tile_set.classList.add('false')
+            }
+        }, 1000); 
+        setTimeout(() => {
+            guess_faction.src = faction_img[card.faction-1]
+            if (card.faction == TARGET_CARD.faction) {
+                tile_faction.classList.add('true')
+            } else {
+                tile_faction.classList.add('false')
+            }
+        }, 1500); 
+        setTimeout(() => {
+            guess_type.innerText = card.type_fr
+            if (card.type_en == TARGET_CARD.type_en) {
+                tile_type.classList.add('true')
+            } else {
+                tile_type.classList.add('false')
+            }
+        }, 2000); 
+        setTimeout(() => {
+            guess_subtype.innerText = card.subtype_fr
+            if (card.subtype_en == TARGET_CARD.subtype_en) {
+                tile_subtype.classList.add('true')
+            } else {
+                tile_subtype.classList.add('false')
+            }
+        }, 2500); 
     } else {
-        guess_card.src = card.img_en
-        guess_set.src = set_img[card.set-1]
-        guess_faction.src = faction_img[card.faction-1]
-        guess_type.innerText = card.type_en
-        guess_subtype.innerText = card.subtype_en
-    }
-
-    // Color tiles true or false
-    if (card.set == TARGET_CARD.set) {
-        tile_set.classList.add('true')
-    } else {
-        tile_set.classList.add('false')
-    }
-    if (card.faction == TARGET_CARD.faction) {
-        tile_faction.classList.add('true')
-    } else {
-        tile_faction.classList.add('false')
-    }
-    if (card.type_en == TARGET_CARD.type_en) {
-        tile_type.classList.add('true')
-    } else {
-        tile_type.classList.add('false')
-    }
-    if (card.subtype_en == TARGET_CARD.subtype_en) {
-        tile_subtype.classList.add('true')
-    } else {
-        tile_subtype.classList.add('false')
+        setTimeout(() => {
+            guess_card.src = card.img_en
+        }, 500); 
+        setTimeout(() => {
+            guess_set.src = set_img['en'][card.set-1]
+            if (card.set == TARGET_CARD.set) {
+                tile_set.classList.add('true')
+            } else {
+                tile_set.classList.add('false')
+            }
+        }, 1000); 
+        setTimeout(() => {
+            guess_faction.src = faction_img[card.faction-1]
+            if (card.faction == TARGET_CARD.faction) {
+                tile_faction.classList.add('true')
+            } else {
+                tile_faction.classList.add('false')
+            }
+        }, 1500); 
+        setTimeout(() => {
+            guess_type.innerText = card.type_en
+            if (card.type_en == TARGET_CARD.type_en) {
+                tile_type.classList.add('true')
+            } else {
+                tile_type.classList.add('false')
+            }
+        }, 2000); 
+        setTimeout(() => {
+            guess_subtype.innerText = card.subtype_en
+            if (card.subtype_en == TARGET_CARD.subtype_en) {
+                tile_subtype.classList.add('true')
+            } else {
+                tile_subtype.classList.add('false')
+            }
+        }, 2500); 
     }
 
     // If player guessed the correct card
@@ -206,23 +276,19 @@ function player_guess(card) {
         game_search_input.classList.add('hidden')
         countdown.classList.remove('hidden')
         game_result_success.classList.remove('hidden')
-
-        // Add image
-        if (LANGUAGE == 'fr') {
-            game_result_img_success.src = TARGET_CARD.img_fr
-        } else {
-            game_result_img_success.src = TARGET_CARD.img_en
-        }
+        share_button.classList.remove('hidden')
 
         // Redraw text
         setLanguage()
 
         // Scroll to bottom
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            left: 0,
-            behavior: 'smooth'
-        });
+        setTimeout(() => {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                left: 0,
+                behavior: 'smooth'
+            });
+        }, 3500);
     }
 
     // If player ran out of guess attempts
@@ -232,23 +298,37 @@ function player_guess(card) {
         game_search_input.classList.add('hidden')
         countdown.classList.remove('hidden')
         game_result_failure.classList.remove('hidden')
-        
-        // Add image
-        if (LANGUAGE == 'fr') {
-            game_result_img_failure.src = TARGET_CARD.img_fr
-        } else {
-            game_result_img_failure.src = TARGET_CARD.img_en
-        }
+        share_button.classList.remove('hidden')
 
         // Redraw text
         setLanguage()
 
         // Scroll to bottom
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            left: 0,
-            behavior: 'smooth'
-        });
+        setTimeout(() => {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                left: 0,
+                behavior: 'smooth'
+            });
+        }, 3500);
+    }
+}
+
+function shareScore() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Alteredlt',
+            text: "\
+            🟩 🟥 🟩 🟩 🟥\
+            🟩 🟥 🟩 🟩 🟩\
+            🟩 🟩 🟩 🟩 🟩\
+            ⬜ ⬜ ⬜ ⬜ ⬜\
+            ⬜ ⬜ ⬜ ⬜ ⬜\
+            ⬜ ⬜ ⬜ ⬜ ⬜",
+            url: 'https://fragileclick.github.io/alteredle',
+        })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
     }
 }
 
