@@ -1,94 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Alteredle</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="icon" href="assets/icon.png" type="image/x-icon">
-    <meta name="theme-color" content="#f5f5f1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <title>Alteredle</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/icon.png" type="image/x-icon">
+  <meta name="theme-color" content="#f5f5f1">
 </head>
+
 <body>
 
-    <header>
-      <h1 class="title"><span class="title1">Altered</span><span class="title2">le</span></h1>
-    </header>
+  <header>
+    <h1 class="title"><span class="title1">Altered</span><span class="title2">le</span></h1>
+    <button id="language_toggle" onclick="toggleLanguage()">
+      <span id="language_toggle_fr">🇫🇷</span>
+      <span>/</span>
+      <span id="language_toggle_en">🇬🇧</span>
+    </button>
+  </header>
 
-    <div id="game">
-      <img class="banner-img" src="https://cdn.alteredcore.org/illustrations_hd/CORE/ALT_CORE_B_OR_09_C_FRAMELESS_T1.jpg">
-      <h1><span class="title1">Card guessing game for </span><span class="title2">Altered TCG</span></h1>
+  <div id="game">
+    <img class="banner-img" src="https://cdn.alteredcore.org/illustrations_hd/CORE/ALT_CORE_B_OR_09_C_FRAMELESS_T1.jpg">
+    <h1><span id="hero_text" class="title1"></span><span class="title2">Altered TCG</span></h1>
 
-      <div class="player-input">
-        <input id="game_search_input" type="text" placeholder="Guess a card..." oninput="player_search(self)">
-        <ul id="game_search_autocomplete" class="player-input-autocomplete hidden"></ul>
-      </div>
+    <div class="player-input">
+      <input id="game_search_input" type="text" oninput="player_search(self)">
+      <ul id="game_search_autocomplete" class="player-input-autocomplete hidden"></ul>
 
-      <div class="game-board">
-        <div><p class="game-col-header">GUESS</p></div>
-        <div><p class="game-col-header">SET</p></div>
-        <div><p class="game-col-header">FACTION</p></div>
-        <div><p class="game-col-header">TYPE</p></div>
-        <div><p class="game-col-header">SUBTYPE</p></div>
-
-        <div class="game-board-cell guess">
-          <img src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png">
-        </div>
-        <div class="game-board-cell set"></div>
-        <div class="game-board-cell faction"></div>
-        <div class="game-board-cell type"></div>
-        <div class="game-board-cell subtype"></div>
-
-        <div class="game-board-cell guess">
-          <img src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png">
-        </div>
-        <div class="game-board-cell set"></div>
-        <div class="game-board-cell faction"></div>
-        <div class="game-board-cell type"></div>
-        <div class="game-board-cell subtype"></div>
-
-                <div class="game-board-cell guess">
-          <img src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png">
-        </div>
-        <div class="game-board-cell set"></div>
-        <div class="game-board-cell faction"></div>
-        <div class="game-board-cell type"></div>
-        <div class="game-board-cell subtype"></div>
-
-                <div class="game-board-cell guess">
-          <img src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png">
-        </div>
-        <div class="game-board-cell set"></div>
-        <div class="game-board-cell faction"></div>
-        <div class="game-board-cell type"></div>
-        <div class="game-board-cell subtype"></div>
-
-                <div class="game-board-cell guess">
-          <img src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png">
-        </div>
-        <div class="game-board-cell set"></div>
-        <div class="game-board-cell faction"></div>
-        <div class="game-board-cell type"></div>
-        <div class="game-board-cell subtype"></div>
-
-                <div class="game-board-cell guess">
-          <img src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png">
-        </div>
-        <div class="game-board-cell set"></div>
-        <div class="game-board-cell faction"></div>
-        <div class="game-board-cell type"></div>
-        <div class="game-board-cell subtype"></div>
+      <div id="countdown" class="hidden">
+        <p id="countdown_title"></p>
+        <h1 id="countdown_timer"></h1>
       </div>
 
     </div>
 
-    <footer>
-      <p>Alteredle. Made by FragileClick.</p>
-    </footer>
+    <div class="game-board">
+      <!-- HEADER -->
+      <div>
+        <p class="game-col-header"></p>
+      </div>
+      <div>
+        <p class="game-col-header" id="game_board_header_set"></p>
+      </div>
+      <div>
+        <p class="game-col-header" id="game_board_header_faction"></p>
+      </div>
+      <div>
+        <p class="game-col-header" id="game_board_header_type"></p>
+      </div>
+      <div>
+        <p class="game-col-header" id="game_board_header_subtype"></p>
+      </div>
+      <!-- ROW 1 -->
+      <div class="game-board-cell guess"><img id="game_guess_card_1"
+          src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png"></div>
+      <div id="game_tile_set_1" class="game-board-cell set"><img id="game_guess_set_1"></div>
+      <div id="game_tile_faction_1" class="game-board-cell faction"><img id="game_guess_faction_1"></div>
+      <div id="game_tile_type_1" class="game-board-cell type"><p id="game_guess_type_1"></p></div>
+      <div id="game_tile_subtype_1" class="game-board-cell subtype"><p id="game_guess_subtype_1"></p></div>
+      <!-- ROW 2 -->
+      <div class="game-board-cell guess"><img id="game_guess_card_2"
+          src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png"></div>
+      <div id="game_tile_set_2" class="game-board-cell set"><img id="game_guess_set_2"></div>
+      <div id="game_tile_faction_2" class="game-board-cell faction"><img id="game_guess_faction_2"></div>
+      <div id="game_tile_type_2" class="game-board-cell type"><p id="game_guess_type_2"></p></div>
+      <div id="game_tile_subtype_2" class="game-board-cell subtype"><p id="game_guess_subtype_2"></p></div>
+      <!-- ROW 3 -->
+      <div class="game-board-cell guess"><img id="game_guess_card_3"
+          src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png"></div>
+      <div id="game_tile_set_3" class="game-board-cell set"><img id="game_guess_set_3"></div>
+      <div id="game_tile_faction_3" class="game-board-cell faction"><img id="game_guess_faction_3"></div>
+      <div id="game_tile_type_3" class="game-board-cell type"><p id="game_guess_type_3"></p></div>
+      <div id="game_tile_subtype_3" class="game-board-cell subtype"><p id="game_guess_subtype_3"></p></div>
+      <!-- ROW 4 -->
+      <div class="game-board-cell guess"><img id="game_guess_card_4"
+          src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png"></div>
+      <div id="game_tile_set_4" class="game-board-cell set"><img id="game_guess_set_4"></div>
+      <div id="game_tile_faction_4" class="game-board-cell faction"><img id="game_guess_faction_4"></div>
+      <div id="game_tile_type_4" class="game-board-cell type"><p id="game_guess_type_4"></p></div>
+      <div id="game_tile_subtype_4" class="game-board-cell subtype"><p id="game_guess_subtype_4"></p></div>
+      <!-- ROW 5 -->
+      <div class="game-board-cell guess"><img id="game_guess_card_5"
+          src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png"></div>
+      <div id="game_tile_set_5" class="game-board-cell set"><img id="game_guess_set_5"></div>
+      <div id="game_tile_faction_5" class="game-board-cell faction"><img id="game_guess_faction_5"></div>
+      <div id="game_tile_type_5" class="game-board-cell type"><p id="game_guess_type_5"></p></div>
+      <div id="game_tile_subtype_5" class="game-board-cell subtype"><p id="game_guess_subtype_5"></p></div>
+      <!-- ROW 6 -->
+      <div class="game-board-cell guess"><img id="game_guess_card_6"
+          src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png"></div>
+      <div id="game_tile_set_6" class="game-board-cell set"><img id="game_guess_set_6"></div>
+      <div id="game_tile_faction_6" class="game-board-cell faction"><img id="game_guess_faction_6"></div>
+      <div id="game_tile_type_6" class="game-board-cell type"><p id="game_guess_type_6"></p></div>
+      <div id="game_tile_subtype_6" class="game-board-cell subtype"><p id="game_guess_subtype_6"></p></div>
+    </div>
+
+    <div id="game_result_success" class="game_result hidden">
+      <h1 id="result_title_success" class="title1"></h1>
+      <p id="result_subtitle_success"></p>
+      <img id="game_result_img_success" src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png">
+    </div>
+    <div id="game_result_failure" class="game_result hidden">
+      <h1 id="result_title_failure" class="title1">So close!</h1>
+       <p id="result_subtitle_failure"></p>
+      <img id="game_result_img_failure" src="https://cdn.alteredcore.org/marketing/cardbacks/ALT_OFFICIAL_CARDBACK.png">
+    </div>
+
+  </div>
+
+  <footer>
+    <p><b><span class="title1">Altered</span><span class="title2">le</span></b> <span id="footer_attribution_article"></span> <a href="https://github.com/FragileClick/Alteredle">FragileClick</a></p>
+    <img src="https://cdn.alteredcore.org/marketing/fan_content/LOGO_ALTERED_BLACK_WATERMARK.png" class="watermark">
+  </footer>
 </body>
 
 
-<script type="text/javascript" src="js/fuse.js"></script> 
-<script type="text/javascript" src="js/db.js"></script> 
-<script type="text/javascript" src="js/main.js"></script> 
+<script type="text/javascript" src="js/fuse.js"></script>
+<script type="text/javascript" src="js/db.js"></script>
+<script type="text/javascript" src="js/countdown.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
 
 </html>

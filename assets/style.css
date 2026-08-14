@@ -117,6 +117,7 @@ hr {
     grid-template-columns: repeat(5, 1fr); 
     gap: 8px;
     margin-top: 7em;
+    margin-bottom: 2em;
     max-width: 600px;
 }
 
@@ -156,6 +157,18 @@ hr {
 }
 .game-board-cell.faction img {
     width: 60%;
+}
+.type {
+    font-family: 'Tiller';
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #49423a;
+}
+.subtype {
+    font-family: 'Tiller';
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #49423a;
 }
 
 .player-input {
@@ -215,9 +228,63 @@ hr {
     display: none;
 }
 
+.translucent {
+    filter: opacity(0.5);
+}
+
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
     outline: none;
+}
+
+.true {
+    background-color: #c8ecc8;
+    border-color: #7bb87b;
+}
+.false {
+    background-color: #f1c0c0;
+    border-color: #c73d3d;
+}
+
+.game_result img {
+    max-width: 350px;
+    border-radius: 14px;
+}
+.game_result h1 {
+    margin-bottom: 0px;
+}
+.game_result p {
+    margin: 8px 0 16px 0;
+}
+#countdown h1 {
+    margin: 8px 0;
+}
+#countdown p {
+    margin: 0 0 8px 0;
+}
+
+a {
+    color: #aa8c2c;
+}
+
+.watermark {
+    width: 80px;
+}
+
+#language_toggle {
+    height: 28px;
+    width: 58px;
+    border: 1px solid #d7d6d1;
+    border-radius: 4em;
+    background-color: #f5f5f1;
+    color: #d7d6d1;
+    font-family: 'Tiller';
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+}
+#language_toggle:hover {
+    background-color: #ecebe8;
 }
