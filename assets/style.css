@@ -10,7 +10,6 @@ body {
     background-image: url(bg.png);
     margin: 0px;
     text-align: center;
-    min-width: 410px;
 }
 
 header {
@@ -30,7 +29,7 @@ header {
 
 footer {
     width: 100%;
-    height: 56px;
+    height: 70px;
     text-align: center;
     align-content: center;
     display: flex;
@@ -38,6 +37,10 @@ footer {
     align-items: center;
     background-color: rgb(245, 245, 242);
     border-top: 5px solid rgb(236, 224, 181);
+}
+
+footer p {
+    transform: translateY(-4px);
 }
 
 #game {
@@ -88,6 +91,7 @@ h1 {
     line-height: 1;
     letter-spacing: .025em;
     color: #49423a;
+    font-size: 30px;
 }
 
 p {
@@ -123,7 +127,7 @@ hr {
 
 .game-col-header {
     color: #49423a;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
 }
 
@@ -176,10 +180,10 @@ hr {
 }
 
 .player-input {
-    width: 100%;
     justify-items: center;
     position: absolute;
-    width: 96%;
+    left: 1em;
+    right: 1em;
 }
 
 .player-input input {
@@ -276,7 +280,6 @@ a {
 
 .watermark {
     width: 80px;
-    transform: translateY(3px);
     margin-left: 0.25em;
 }
 

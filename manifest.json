@@ -1,0 +1,16 @@
+{
+    "name": "Alteredle",
+    "short_name": "Alteredle",
+    "start_url": "https://fragileclick.github.io/Alteredle",
+    "display": "standalone",
+    "theme_color": "#B5B9C4",
+    "background_color": "#ECE0B5",
+    "icons": [
+        {
+            "src": "assets/icon.svg",
+            "type": "image/svg",
+            "sizes": "512x512",
+            "purpose": "maskable"
+        }
+    ]
+}
