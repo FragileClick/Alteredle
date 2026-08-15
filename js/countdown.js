@@ -20,10 +20,9 @@ function updateCountdown() {
   // Display the result in the element with id="demo"
   document.getElementById("countdown_timer").innerText = hours+"h "+minutes+"m "+seconds+"s ";
 
-  // If the count down is finished, write some text
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "0h 0m 0s";
+  // If the count down is finished, reload page
+  if (hours <= 0) {
+    window.location.reload();
   }
 }
 

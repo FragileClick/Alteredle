@@ -14,26 +14,25 @@
 
 <p align="center">
     <a href="https://fragileclick.github.io/Alteredle">
-        <img src="docs/banner.jpg" width=400px>
+        <img src="docs/banner.jpg" width=620px>
     </a>
 </p>
-
 
 ## Card List
 
 The card list contains cards from sets 1-6. The card list only includes the standard printings; not Alt-Art, Promo, Serialized, Stamped, etc. For cards that were re-printed in multiple sets (ie. some Heroes) the list only include the earliest printing of each card.
 
-| Set                          | Included |
-|------------------------------|----------|
-| Beyond The Gates (BTG)       | 🟢 Yes   |
-| Trial By Frost (TBF)         | 🟢 Yes   |
-| Whispers From The Maze (WFM) | 🟢 Yes   |
-| Skybound Odyssey (SKY)       | 🟢 Yes   |
-| Seeds Of Unity (SDU)         | 🟢 Yes   |
-| Roots Of Corruption (ROC)    | 🟢 Yes   |
-| Neverending Journey (NEJ)    | 🔴 No    |
+| Set                          | Included | # Cards |
+|------------------------------|----------|---------|
+| Beyond The Gates (BTG)       | 🟢 Yes   | 180     |
+| Trial By Frost (TBF)         | 🟢 Yes   | 91      |
+| Whispers From The Maze (WFM) | 🟢 Yes   | 91      |
+| Skybound Odyssey (SKY)       | 🟢 Yes   | 108     |
+| Seeds Of Unity (SDU)         | 🟢 Yes   | 105     |
+| Roots Of Corruption (ROC)    | 🟢 Yes   | 105     |
+| Neverending Journey (NEJ)    | 🔴 No    | 0       |
 
-The card list contains one *version* of every card. The game uses the in-faction Rare versions because they look cool :) The card list does not include any out-of-faction rares, commons, uniques or tokens.
+The card list includes in-faction Rare, Hero and Exalted cards. The card list does not include out-of-faction rares, commons, uniques or tokens.
 
 | Rarity           | Included |
 |------------------|----------|
@@ -66,4 +65,4 @@ Alteredle supports English and French.
 
 Alteredle is an unofficial fan game and is not affiliated with Equinox.
 
-<img src="https://cdn.alteredcore.org/marketing/fan_content/LOGO_ALTERED_BLACK_WATERMARK.png" width=200px style="background-color: white; padding: 8px;">
+<img src="https://cdn.alteredcore.org/marketing/fan_content/LOGO_ALTERED_BLACK_WATERMARK.png" width=120px style="background-color: white; padding: 8px;">
