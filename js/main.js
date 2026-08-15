@@ -6,9 +6,10 @@
 var GAME = loadGame()
 
 // DITERMINE TARGET CARD FROM CURRENT DATE
-const dt_origin = new Date('2026-08-14') // Game Launch Date
+const dt_origin = new Date('2026-08-14T00:00:00') // Game Launch Date
 const dt_today  = new Date()
 const dt_offset = Math.floor((dt_today - dt_origin) / (24 * 60 * 60 * 1000))
+
 // If offset exceeds number of cards, reset count
 while (dt_offset > db.cards.length) {
     dt_offset -= db.cards.length

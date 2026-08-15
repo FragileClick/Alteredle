@@ -6,7 +6,6 @@ resetTimestamp.setDate(resetTimestamp.getDate() + 1);
 resetTimestamp.setHours(0, 0, 0, 0);
 
 function updateCountdown() {
-
   // Get today's date and time
   var now = new Date().getTime();
 

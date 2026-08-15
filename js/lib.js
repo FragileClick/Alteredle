@@ -401,12 +401,13 @@ function loadGame() {
     }
 
     // If it's a new day, reset puzzle
-    var todayDate = new Date().toDateString()
-    if (state.lastUpdate.toDateString() != todayDate) {
+    var todayDate = new Date().toLocaleDateString('en-CA')
+    var lastUpdateDate = state.lastUpdate.toLocaleDateString('en-CA')
+
+    if (lastUpdateDate != todayDate) {
         state.guesses = []
         saveGame(state)
     }
-
     return state
 
 }
