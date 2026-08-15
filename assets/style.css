@@ -268,6 +268,10 @@ button:focus {
     background-color: #f1c0c0;
     border-color: #c73d3d;
 }
+.partial {
+    background-color: #f1f1c0;
+    border-color: #c7c03d;
+}
 
 .game_result img {
     max-width: 350px;

@@ -183,11 +183,7 @@ function player_guess(card) {
         }, 2000); 
         setTimeout(() => {
             guess_subtype.innerText = card.subtype_fr
-            if (card.subtype_en == TARGET_CARD.subtype_en) {
-                tile_subtype.classList.add('true')
-            } else {
-                tile_subtype.classList.add('false')
-            }
+            tile_subtype.classList.add(checkSubtypes(card))
         }, 2500); 
     } else {
         setTimeout(() => {
@@ -219,11 +215,7 @@ function player_guess(card) {
         }, 2000); 
         setTimeout(() => {
             guess_subtype.innerText = card.subtype_en
-            if (card.subtype_en == TARGET_CARD.subtype_en) {
-                tile_subtype.classList.add('true')
-            } else {
-                tile_subtype.classList.add('false')
-            }
+            tile_subtype.classList.add(checkSubtypes(card))
         }, 2500); 
     }
 
@@ -325,7 +317,7 @@ function drawGameBoard() {
                     <div id="game_tile_set_${row}" class="game-board-cell set ${card.set==TARGET_CARD.set}"><img id="game_guess_set_${row}" src="${db.set['fr'][card.set]}"></div>
                     <div id="game_tile_faction_${row}" class="game-board-cell faction ${card.faction==TARGET_CARD.faction}"><img id="game_guess_faction_${row}" src="${db.faction[card.faction-1]}"></div>
                     <div id="game_tile_type_${row}" class="game-board-cell type ${card.type_fr==TARGET_CARD.type_fr}"><p id="game_guess_type_${row}">${card.type_fr}</p></div>
-                    <div id="game_tile_subtype_${row}" class="game-board-cell subtype ${card.subtype_fr==TARGET_CARD.subtype_fr}"><p id="game_guess_subtype_${row}">${card.subtype_fr}</p></div>
+                    <div id="game_tile_subtype_${row}" class="game-board-cell subtype ${checkSubtypes(card)}"><p id="game_guess_subtype_${row}">${card.subtype_fr}</p></div>
                 `
             } else {
                 var gameBoardRow = `
@@ -333,7 +325,7 @@ function drawGameBoard() {
                     <div id="game_tile_set_${row}" class="game-board-cell set ${card.set==TARGET_CARD.set}"><img id="game_guess_set_${row}" src="${db.set['en'][card.set]}"></div>
                     <div id="game_tile_faction_${row}" class="game-board-cell faction ${card.faction==TARGET_CARD.faction}"><img id="game_guess_faction_${row}" src="${db.faction[card.faction-1]}"></div>
                     <div id="game_tile_type_${row}" class="game-board-cell type ${card.type_en==TARGET_CARD.type_en}"><p id="game_guess_type_${row}">${card.type_en}</p></div>
-                    <div id="game_tile_subtype_${row}" class="game-board-cell subtype ${card.subtype_en==TARGET_CARD.subtype_en}"><p id="game_guess_subtype_${row}">${card.subtype_en}</p></div>
+                    <div id="game_tile_subtype_${row}" class="game-board-cell subtype ${checkSubtypes(card)}"><p id="game_guess_subtype_${row}">${card.subtype_en}</p></div>
                 `
             }
         } else {
@@ -346,6 +338,26 @@ function drawGameBoard() {
             `
         }
         gameBoard.innerHTML += gameBoardRow
+    }
+}
+
+// Function that checks if guessed card subtypes match the target card
+function checkSubtypes(card) {
+    // Some cards have multiple subtypes. Here are the possible results:
+    //   "true"     Guessed card has the same subtype(s) as target card
+    //   "partial"  Guessed card has SOME of the subtypes as target card
+    //   "false"    Guessed card has NONE of the subtypes as target card
+    var card_subtypes = card.subtype_en.trim().split(' ')
+    var target_card_subtypes = TARGET_CARD.subtype_en.trim().split(' ')
+
+    if (card.subtype_en==TARGET_CARD.subtype_en) {
+        return 'true'
+    }
+    else if ( card_subtypes.some(element => target_card_subtypes.includes(element)) ) {
+        return 'partial'
+    }
+    else {
+        return 'false'
     }
 }
 
