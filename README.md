@@ -13,7 +13,9 @@
 </p>
 
 <p align="center">
-    <img src="docs/banner.jpg" style="max-width: 500px;">
+    <a href="https://fragileclick.github.io/Alteredle">
+        <img src="docs/banner.jpg" width=400px>
+    </a>
 </p>
 
 
@@ -31,7 +33,7 @@ The card list contains cards from sets 1-6. The card list only includes the stan
 | Roots Of Corruption (ROC)    | 🟢 Yes   |
 | Neverending Journey (NEJ)    | 🔴 No    |
 
-The card list contains one *version* of every card. The game uses the in-faction Rare version because they look cool. The card list does not include any out-of-faction rares, commons, uniques or tokens.
+The card list contains one *version* of every card. The game uses the in-faction Rare versions because they look cool :) The card list does not include any out-of-faction rares, commons, uniques or tokens.
 
 | Rarity           | Included |
 |------------------|----------|
