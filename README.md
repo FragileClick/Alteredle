@@ -32,7 +32,7 @@ The card list contains cards from sets 1-6. The card list only includes the stan
 | Roots Of Corruption (ROC)    | 🟢 Yes   | 105     |
 | Neverending Journey (NEJ)    | 🔴 No    | 0       |
 
-The card list includes in-faction Rare, Hero and Exalted cards. The card list does not include out-of-faction rares, commons, uniques or tokens.
+The card list includes in-faction Rare, Hero and Exalted cards. The card list does not include out-of-faction Rare, Common, Uniques or Token cards.
 
 | Rarity           | Included |
 |------------------|----------|
@@ -56,6 +56,12 @@ The card data and images come from the [AlteredCore](https://alteredcore.org) AP
 Alteredle supports English and French.
 
 <img src="docs/language.png" width="120px"> -->
+
+## Install
+
+Play [Alteredle](https://fragileclick.github.io/Alteredle) in your browser or add-to-homescreen to run as a Progressive Web App (PWA).
+
+[![](docs/install.jpg)](https://fragileclick.github.io/Alteredle)
 
 ## Screenshots
 
