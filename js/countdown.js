@@ -5,8 +5,7 @@ const resetTimestamp = new Date();
 resetTimestamp.setDate(resetTimestamp.getDate() + 1);
 resetTimestamp.setHours(0, 0, 0, 0);
 
-// Update the count down every 1 second
-var x = setInterval(function() {
+function updateCountdown() {
 
   // Get today's date and time
   var now = new Date().getTime();
@@ -20,11 +19,14 @@ var x = setInterval(function() {
   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
   // Display the result in the element with id="demo"
-  document.getElementById("countdown_timer").innerHTML = hours+"h "+minutes+"m "+seconds+"s ";
+  document.getElementById("countdown_timer").innerText = hours+"h "+minutes+"m "+seconds+"s ";
 
   // If the count down is finished, write some text
   if (distance < 0) {
     clearInterval(x);
-    document.getElementById("demo").innerHTML = "...";
+    document.getElementById("demo").innerHTML = "0h 0m 0s";
   }
-}, 1000);
+}
+
+// Update the count down every 1 second
+var x = setInterval(updateCountdown, 1000);
