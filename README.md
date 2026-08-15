@@ -1,16 +1,25 @@
-# Alteredle
+<p align="center">
+    <a href="https://fragileclick.github.io/Alteredle">
+        <img src="assets/icon.png" width="100px">
+    </a>
+</p>
 
-<img src="assets/icon.png" width="100px">
+**Alteredle** is a card guessing game for [Altered TCG](https://www.altered.gg/en-us). The game is inspired by the popular word-guessing game [Wordle](https://www.nytimes.com/games/wordle) and the many variations like [Pokedle](https://www.pokedle.net/), [Runedle](https://runedle.com/#/runes), and more.
 
-Alteredle is a card guessing game for [Altered TCG](https://www.altered.gg/en-us). The game is inspired by the popular word-guessing game [Wordle](https://www.nytimes.com/games/wordle) and the many variations like [Pokedle](https://www.pokedle.net/), [Runedle](https://runedle.com/#/runes), and more.
+<h3 align="center" style="font-size:2em"><a href="https://fragileclick.github.io/Alteredle">Click to play Alteredle</a></h3>
 
-### [Click to play Alteredle](https://fragileclick.github.io/Alteredle/)
+<p align="center" style="margin-bottom: 2em;">
+<a href="https://fragileclick.github.io/Alteredle">https://fragileclick.github.io/Alteredle</a>
+</p>
 
-![](docs/banner.jpg)
+<p align="center">
+    <img src="docs/banner.jpg" style="max-width: 500px;">
+</p>
+
 
 ## Card List
 
-The card list contains cards from set 1-6. The card list only includes the standard printings; not Alt-Art, Promo, Serialized, Stamped, etc. For cards that were re-printed in multiple sets (ie. Hero) the list only include the earliest printing of each card.
+The card list contains cards from sets 1-6. The card list only includes the standard printings; not Alt-Art, Promo, Serialized, Stamped, etc. For cards that were re-printed in multiple sets (ie. some Heroes) the list only include the earliest printing of each card.
 
 | Set                          | Included |
 |------------------------------|----------|
@@ -34,18 +43,18 @@ The card list contains one *version* of every card. The game uses the in-faction
 | Unique (U)       | 🔴 No    |
 | Exalted (E)      | 🟢 Yes   |
 
-The card data and images come from the [AlteredCore](https://alteredcore.org) API and CDN. The script [`gen-card-db.py`](scripts/gen-card-db.py) requests card data from the API and formats it into [`db.js`](js/db.js)
+The card data and images come from the [AlteredCore](https://alteredcore.org) API and CDN. The script [`gen-card-db.py`](scripts/gen-card-db.py) requests card data from the API and formats it into into the cards object in [`db.js`](js/db.js).
 
 | Data        | Source                                                 |
 |-------------|--------------------------------------------------------|
 | Card Data   | [cards.alteredcore.org](https://cards.alteredcore.org) |
 | Card Images | [cdn.alteredcore.org](https://cdn.alteredcore.org/)    |
 
-## Language
+<!-- ## Language
 
 Alteredle supports English and French.
 
-<img src="docs/language.png" width="120px">
+<img src="docs/language.png" width="120px"> -->
 
 ## Screenshots
 
