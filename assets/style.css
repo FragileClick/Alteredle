@@ -50,7 +50,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 500px;
+    width: 650px;
     height: 100%;
     position: relative;
     margin: 0 1em;
@@ -77,7 +77,7 @@ footer p {
 #game {
     margin: 0 auto;
     padding-top: 1.75em;
-    max-width: 500px;
+    max-width: 650px;
     padding-left: 1em;
     padding-right: 1em;
     padding-bottom: 2em;
@@ -137,7 +137,7 @@ hr {
     gap: 8px;
     margin-top: 7em;
     margin-bottom: 2em;
-    max-width: 600px;
+    max-width: 500px;
 }
 
 .game-col-header {
