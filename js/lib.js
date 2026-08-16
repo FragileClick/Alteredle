@@ -31,6 +31,8 @@ function setLanguage() {
     document.getElementById('result_title_failure').innerText = copy.result_title_failure
     document.getElementById('result_subtitle_failure').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_en)
     document.getElementById('footer_attribution_article').innerText = copy.footer_attribution_article
+    document.getElementById('player_hint').innerText = copy.player_hint
+
     // Update language toggle icon
     const language_toggle_fr = document.getElementById('language_toggle_fr')
     const language_toggle_en = document.getElementById('language_toggle_en')
@@ -142,20 +144,29 @@ function player_guess(card) {
     var curretGuessCount = GAME.guesses.length
 
     // Select the game board elements that need to update
-    var tile_set      = document.getElementById('game_tile_set_'+curretGuessCount)
-    var tile_faction  = document.getElementById('game_tile_faction_'+curretGuessCount)
-    var tile_type     = document.getElementById('game_tile_type_'+curretGuessCount)
-    var tile_subtype  = document.getElementById('game_tile_subtype_'+curretGuessCount)
-    var guess_card    = document.getElementById('game_guess_card_'+curretGuessCount)
-    var guess_set     = document.getElementById('game_guess_set_'+curretGuessCount)
-    var guess_faction = document.getElementById('game_guess_faction_'+curretGuessCount)
-    var guess_type    = document.getElementById('game_guess_type_'+curretGuessCount)
-    var guess_subtype = document.getElementById('game_guess_subtype_'+curretGuessCount)
+    var tile_set        = document.getElementById('game_tile_set_'+curretGuessCount)
+    var tile_faction    = document.getElementById('game_tile_faction_'+curretGuessCount)
+    var tile_type       = document.getElementById('game_tile_type_'+curretGuessCount)
+    var tile_subtype    = document.getElementById('game_tile_subtype_'+curretGuessCount)
+    var guess_card      = document.getElementById('game_guess_card_'+curretGuessCount)
+    var guess_card_icon = document.getElementById('game_guess_card_icon_'+curretGuessCount)
+    var guess_set       = document.getElementById('game_guess_set_'+curretGuessCount)
+    var guess_faction   = document.getElementById('game_guess_faction_'+curretGuessCount)
+    var guess_type      = document.getElementById('game_guess_type_'+curretGuessCount)
+    var guess_subtype   = document.getElementById('game_guess_subtype_'+curretGuessCount)
 
     // Write guess card attributes to gameboard
     if (GAME.language=='fr') {
        setTimeout(() => {
             guess_card.src = card.img_fr
+            guess_card_icon.classList.add('icon')
+            if (card == TARGET_CARD) {
+                guess_card_icon.src = db.icons.true
+                guess_card_icon.classList.add('true')
+            } else {
+                guess_card_icon.src = db.icons.false
+                guess_card_icon.classList.add('false')
+            }
         }, 500); 
         setTimeout(() => {
             guess_set.src = db.set['fr'][card.set]
@@ -188,6 +199,14 @@ function player_guess(card) {
     } else {
         setTimeout(() => {
             guess_card.src = card.img_en
+            guess_card_icon.classList.add('icon')
+            if (card == TARGET_CARD) {
+                guess_card_icon.src = db.icons.true
+                guess_card_icon.classList.add('true')
+            } else {
+                guess_card_icon.src = db.icons.false
+                guess_card_icon.classList.add('false')
+            }
         }, 500); 
         setTimeout(() => {
             guess_set.src = db.set['en'][card.set]
@@ -257,6 +276,8 @@ function setGameEndWin() {
     game_result_success.classList.remove('hidden')
     // Hide search input
     game_search_input.classList.add('hidden')
+    // Hide hint
+    player_hint.classList.add('hidden')
     // Show countdown timer
     countdown.classList.remove('hidden')
 }
@@ -267,6 +288,8 @@ function setGameEndLose() {
     game_result_failure.classList.remove('hidden')
     // Hide search input
     game_search_input.classList.add('hidden')
+    // Hide hint
+    player_hint.classList.add('hidden')
     // Show countdown timer
     countdown.classList.remove('hidden')
 }
@@ -313,7 +336,7 @@ function drawGameBoard() {
             var card = getCardById(GAME.guesses[row-1])
             if (GAME.language == 'fr') {
                 var gameBoardRow = `
-                    <div class="game-board-cell guess"><img id="game_guess_card_${row}" src=${card.img_fr}></div>
+                    <div id="game_guess_${row}" class="game-board-cell guess"><img id="game_guess_card_icon_${row}" class="icon ${card==TARGET_CARD}" src="assets/${card==TARGET_CARD}.svg"><img id="game_guess_card_${row}" src=${card.img_fr}></div>
                     <div id="game_tile_set_${row}" class="game-board-cell set ${card.set==TARGET_CARD.set}"><img id="game_guess_set_${row}" src="${db.set['fr'][card.set]}"></div>
                     <div id="game_tile_faction_${row}" class="game-board-cell faction ${card.faction==TARGET_CARD.faction}"><img id="game_guess_faction_${row}" src="${db.faction[card.faction-1]}"></div>
                     <div id="game_tile_type_${row}" class="game-board-cell type ${card.type_fr==TARGET_CARD.type_fr}"><p id="game_guess_type_${row}">${card.type_fr}</p></div>
@@ -321,7 +344,7 @@ function drawGameBoard() {
                 `
             } else {
                 var gameBoardRow = `
-                    <div class="game-board-cell guess"><img id="game_guess_card_${row}" src=${card.img_en}></div>
+                    <div id="game_guess_${row}" class="game-board-cell guess"><img id="game_guess_card_icon_${row}" class="icon ${card==TARGET_CARD}" src="assets/${card==TARGET_CARD}.svg"><img id="game_guess_card_${row}" src=${card.img_en}></div>
                     <div id="game_tile_set_${row}" class="game-board-cell set ${card.set==TARGET_CARD.set}"><img id="game_guess_set_${row}" src="${db.set['en'][card.set]}"></div>
                     <div id="game_tile_faction_${row}" class="game-board-cell faction ${card.faction==TARGET_CARD.faction}"><img id="game_guess_faction_${row}" src="${db.faction[card.faction-1]}"></div>
                     <div id="game_tile_type_${row}" class="game-board-cell type ${card.type_en==TARGET_CARD.type_en}"><p id="game_guess_type_${row}">${card.type_en}</p></div>
@@ -330,7 +353,7 @@ function drawGameBoard() {
             }
         } else {
             var gameBoardRow = `
-                <div class="game-board-cell guess"><img id="game_guess_card_${row}" src=${db.cardBack}></div>
+                <div class="game-board-cell guess"><img id="game_guess_card_icon_${row}"><img id="game_guess_card_${row}" src=${db.cardBack}></div>
                 <div id="game_tile_set_${row}" class="game-board-cell set"><img id="game_guess_set_${row}"></div>
                 <div id="game_tile_faction_${row}" class="game-board-cell faction"><img id="game_guess_faction_${row}"></div>
                 <div id="game_tile_type_${row}" class="game-board-cell type"><p id="game_guess_type_${row}"></p></div>

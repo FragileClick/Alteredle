@@ -41,7 +41,7 @@ header {
     align-items: center;
     background-color: rgb(245, 245, 242);
     border-bottom: 5px solid rgb(236, 224, 181);
-    z-index: 1;
+    z-index: 3;
 }
 
 .header-content {
@@ -167,10 +167,19 @@ hr {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: static;
 }
 .game-board-cell.guess img {
     border-radius: 3px;
 }
+.game-board-cell.guess .icon {
+    width: 32px;
+    position: absolute;
+    border-radius: 100%;
+    border-style: solid;
+    border-width: 2px;
+}
+
 .game-board-cell.set {
 
 }
@@ -198,6 +207,7 @@ hr {
     position: absolute;
     left: 1em;
     right: 1em;
+    z-index: 2;
 }
 
 .player-input input {
@@ -262,7 +272,7 @@ button:focus {
 
 .true {
     background-color: #c8ecc8;
-    border-color: #7bb87b;
+    border-color: #4d844d;
 }
 .false {
     background-color: #f1c0c0;
