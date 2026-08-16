@@ -16,7 +16,7 @@ Play [Alteredle](https://fragileclick.github.io/Alteredle) in your browser or ad
 
 ## Card List
 
-The card list contains cards from sets 1-6. The card list only includes the standard printings; not Alt-Art, Promo, Serialized, Stamped, etc. For cards that were re-printed in multiple sets (ie. some Heroes) the list only include the earliest printing of each card.
+The card list contains cards from sets 1-6. For cards that were re-printed in multiple sets (ie. some Heroes) the list only include the earliest printing.
 
 | Set                          | Included | # Cards |
 |------------------------------|----------|---------|
@@ -28,7 +28,7 @@ The card list contains cards from sets 1-6. The card list only includes the stan
 | Roots Of Corruption (ROC)    | 🟢 Yes   | 105     |
 | Neverending Journey (NEJ)    | 🔴 No    | 0       |
 
-The card list includes in-faction Rare, Hero and Exalted cards. The card list does not include out-of-faction Rare, Common, Uniques or Token cards.
+The card list includes in-faction Rare, Hero and Exalted cards. The card list does not include out-of-faction Rare, Common, Unique or Token cards.
 
 | Rarity           | Included |
 |------------------|----------|
@@ -47,9 +47,7 @@ The card data and images come from the [AlteredCore](https://alteredcore.org) AP
 | Card Data   | [cards.alteredcore.org](https://cards.alteredcore.org) |
 | Card Images | [cdn.alteredcore.org](https://cdn.alteredcore.org/)    |
 
-## Screenshots
-
-![](docs/screenshots.jpg)
+![](docs/banner.jpg)
 
 ## Disclaimer
 
