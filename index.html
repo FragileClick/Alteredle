@@ -4,40 +4,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- Title & Style -->
   <title>Alteredle</title>
-
-  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="assets/style.css">
-
+  <!-- Icons -->
   <link rel="icon" href="assets/icon.svg" type="image/x-icon">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Alteredle">
-  <link rel="apple-touch-icon" href="assets/icon.png">
-
   <meta name="theme-color" content="#f5f5f1">
+  <!-- Link embeds -->
+  <meta property="og:title" content="Alteredle">
+  <meta property="og:description" content="Card guessing game for Altered TCG.">
+  <meta property="og:url" content="https://fragileclick.github.io/Alteredle">
+  <meta property="og:image" content="https://fragileclick.github.io/Alteredle/docs/banner.jpg">
+  <meta name="twitter:card" content="summary">
 </head>
-
 <body>
   <header>
-
     <div class="header-content">
-
       <h1 class="title"><span class="title1">Altered</span><span class="title2">le</span></h1>
       <button id="language_toggle" onclick="toggleLanguage()">
         <span id="language_toggle_fr">🇫🇷</span>
         <span> / </span>
         <span id="language_toggle_en">🇬🇧</span>
       </button>
-
-
     </div>
   </header>
-
   <div id="game">
     <img class="banner-img" src="https://cdn.alteredcore.org/illustrations_hd/CORE/ALT_CORE_B_OR_09_C_FRAMELESS_T1.jpg">
     <h1><span id="hero_text" class="title1"></span><span class="title2">Altered TCG</span></h1>
-
     <div class="player-input">
       <input id="game_search_input" type="text" oninput="player_search(self)">
       <ul id="game_search_autocomplete" class="player-input-autocomplete hidden"></ul>
@@ -46,7 +45,6 @@
         <h1 id="countdown_timer">0h 0m 0s</h1>
       </div>
     </div>
-
     <div id="gameBoard" class="game-board">
 
       <!-- HEADER -->
@@ -93,37 +91,30 @@
       <div id="game_tile_subtype_6" class="game-board-cell subtype"><p id="game_guess_subtype_6"></p></div>
 
     </div>
-
+    <div id="player-hint"><a href="https://github.com/FragileClick/Alteredle#card-list">Card list?</a></div>
     <div id="game_result_success" class="game_result hidden">
       <h1 id="result_title_success" class="title1"></h1>
       <p id="result_subtitle_success"></p>
       <img id="game_result_img_success" src="assets/cardback.webp">
     </div>
-
     <div id="game_result_failure" class="game_result hidden">
       <h1 id="result_title_failure" class="title1">So close!</h1>
       <p id="result_subtitle_failure"></p>
       <img id="game_result_img_failure" src="assets/cardback.webp">
     </div>
-    
     <div id="share_button" onclick="shareScore()" class="hidden"></div>
   </div>
-
   <footer>
-
     <div class="header-content">
       <p><b><span class="title1">ALTERED</span><span class="title2">LE</span></b> <span
           id="footer_attribution_article"></span> <a href="https://github.com/FragileClick/Alteredle" target="_blank" rel="noopener noreferrer">FragileClick</a></p>
       <img src="https://cdn.alteredcore.org/marketing/fan_content/LOGO_ALTERED_BLACK_WATERMARK.png" class="watermark">
     </div>
-
   </footer>
 </body>
-
 <script type="text/javascript" src="js/fuse.js"></script>
 <script type="text/javascript" src="js/lib.js"></script>
 <script type="text/javascript" src="js/db.js"></script>
 <script type="text/javascript" src="js/countdown.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
-
 </html>
