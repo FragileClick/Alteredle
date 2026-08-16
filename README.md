@@ -6,17 +6,13 @@
 
 **Alteredle** is a card guessing game for [Altered TCG](https://www.altered.gg/en-us). The game is inspired by the popular word-guessing game [Wordle](https://www.nytimes.com/games/wordle) and the many variations like [Pokedle](https://www.pokedle.net/), [Runedle](https://runedle.com/#/runes), and more.
 
-<h3 align="center" style="font-size:2em"><a href="https://fragileclick.github.io/Alteredle">Click to play Alteredle</a></h3>
+## How To Play?
 
-<p align="center" style="margin-bottom: 2em;">
-<a href="https://fragileclick.github.io/Alteredle">https://fragileclick.github.io/Alteredle</a>
-</p>
+<h3 style="font-size:2em"><a href="https://fragileclick.github.io/Alteredle">Click to play Alteredle!</a></h3>
 
-<p align="center">
-    <a href="https://fragileclick.github.io/Alteredle">
-        <img src="docs/banner.jpg" width=620px>
-    </a>
-</p>
+Play [Alteredle](https://fragileclick.github.io/Alteredle) in your browser or add-to-homescreen to install as a Progressive Web App (PWA).
+
+[![](docs/install.jpg)](https://fragileclick.github.io/Alteredle)
 
 ## Card List
 
@@ -50,18 +46,6 @@ The card data and images come from the [AlteredCore](https://alteredcore.org) AP
 |-------------|--------------------------------------------------------|
 | Card Data   | [cards.alteredcore.org](https://cards.alteredcore.org) |
 | Card Images | [cdn.alteredcore.org](https://cdn.alteredcore.org/)    |
-
-<!-- ## Language
-
-Alteredle supports English and French.
-
-<img src="docs/language.png" width="120px"> -->
-
-## Install
-
-Play [Alteredle](https://fragileclick.github.io/Alteredle) in your browser or add-to-homescreen to run as a Progressive Web App (PWA).
-
-[![](docs/install.jpg)](https://fragileclick.github.io/Alteredle)
 
 ## Screenshots
 
