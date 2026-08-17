@@ -57,11 +57,16 @@ function toggleLanguage() {
     } else {
         GAME.language = 'fr'
     }
+    // Save new language
     saveGame(GAME)
+    // Redraw game in new langauge
     drawGameBoard()
+    // Clear search and close autocomplete
+    game_search_input.value = ""
+    game_search_autocomplete.classList.add('hidden')
 }
 // Function handles player search + input autocomplete
-function player_search(self) {
+function player_search() {
     // Get player search query string
     var player_input = game_search_input.value
     // If player hasn't searched anything, hide menu
@@ -147,7 +152,7 @@ function player_guess(card) {
         if (isGameOver) {
             document.getElementById('game_result_success').scrollIntoView({ behavior: 'smooth', block: 'start'})
         }
-    }, 4000);
+    }, 4500);
 }
 
 // Function checks if the game is done. Either win or loss.
@@ -418,10 +423,10 @@ function evalCardCost(card, cost) {
     // Evaluate HAND cost
     if (cost == 'hand') {
         if (TARGET_CARD.hand_cost > card.hand_cost) {
-            return icon_hand + ' ↑'
+            return `${icon_hand} ${card.hand_cost} ↑`
         }
         else if (TARGET_CARD.hand_cost < card.hand_cost) {
-            return icon_hand + ' ↓'
+            return `${icon_hand} ${card.hand_cost} ↓`
         }
         else {
             return `${icon_hand} ${card.hand_cost}`
@@ -430,10 +435,10 @@ function evalCardCost(card, cost) {
     // Evaluate RESERVE cost
     else if (cost == 'reserve') {
         if (TARGET_CARD.reserve_cost > card.reserve_cost) {
-            return icon_reserve + ' ↑'
+            return `${icon_reserve} ${card.reserve_cost} ↑`
         }
         else if (TARGET_CARD.reserve_cost < card.reserve_cost) {
-            return icon_reserve + ' ↓'
+            return `${icon_reserve} ${card.reserve_cost} ↓`
         }
         else {
             return `${icon_reserve} ${card.reserve_cost}`
