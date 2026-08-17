@@ -144,7 +144,7 @@ hr {
 
 .game-col-header {
     color: #49423a;
-    font-size: 10px;
+    font-size: clamp(10px, 2cqw, 14px);
     font-weight: 600;
     text-transform: uppercase;
 }
@@ -204,6 +204,7 @@ hr {
     color: #49423a;
     align-content: center;
     font-size: clamp(8px, 2cqw, 14px);
+    padding: 2px;
 }
 .game-board-cell.cost .container {
     display: grid;
@@ -212,12 +213,12 @@ hr {
     width: 100%;
 }
 .cost_value {
-    font-size: clamp(16px, 2cqw, 24px);
+    font-size: clamp(14px, 2.5cqw, 20px);
     font-weight: bold;
     color: #49423a;
     text-transform: uppercase;
     align-content: center;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 
 .player-input {
