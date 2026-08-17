@@ -17,11 +17,11 @@ function updateCountdown() {
   var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  // Display the result in the element with id="demo"
+  // Display the result
   document.getElementById("countdown_timer").innerText = hours+"h "+minutes+"m "+seconds+"s ";
 
   // If the count down is finished, reload page
-  if (hours <= 0) {
+  if (hours <= 0 && minutes <=0 && seconds <= 0) {
     window.location.reload();
   }
 }
