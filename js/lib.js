@@ -150,19 +150,18 @@ function player_guess(card) {
     setTimeout(() => {
         var isGameOver = checkGameEndState()
         if (isGameOver) {
-            document.getElementById('game_result_success').scrollIntoView({ behavior: 'smooth', block: 'start'})
+            window.scrollTo({top: document.body.scrollHeight, left: 0,behavior: 'smooth'}) 
         }
     }, 4500);
 }
 
 // Function checks if the game is done. Either win or loss.
 function checkGameEndState() {
-
     // If player guessed the correct card, the game is over. Win.
     if (GAME.guesses.includes(TARGET_CARD.id)) {
         // Redraw text
         setLanguage()
-        // Show result and scoll to bottom
+        // Show result
         setGameEndWin()
 
         return true
@@ -171,7 +170,7 @@ function checkGameEndState() {
     if (GAME.guesses.length >= GAME.guessTotal) {
         // Redraw text
         setLanguage()
-        // Show result and scoll to bottom
+        // Show result
         setGameEndLose()
 
         return true
