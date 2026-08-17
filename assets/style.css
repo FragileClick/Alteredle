@@ -136,10 +136,10 @@ hr {
 .game-board {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
+    gap: 6px;
     margin-top: 7em;
     margin-bottom: 2em;
-    max-width: 500px;
+    /* max-width: 500px; */
 }
 
 .game-col-header {
@@ -203,7 +203,7 @@ hr {
     font-weight: bold;
     color: #49423a;
     align-content: center;
-    font-size: 9px;
+    font-size: clamp(8px, 2cqw, 14px);
 }
 .game-board-cell.cost .container {
     display: grid;
@@ -212,7 +212,7 @@ hr {
     width: 100%;
 }
 .cost_value {
-    font-size: 16px;
+    font-size: clamp(16px, 2cqw, 24px);
     font-weight: bold;
     color: #49423a;
     text-transform: uppercase;
