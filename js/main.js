@@ -34,7 +34,7 @@ document.onkeydown = function(e) {
     }
 };
 
-// DRAW PAGE
-setLanguage()
+// DRAW GAMEBOARD
+drawGameBoard()
 // CHECK IF GAME IS ALREADY WON
 checkGameEndState()

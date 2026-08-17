@@ -78,8 +78,8 @@ footer p {
     margin: 0 auto;
     padding-top: 1.75em;
     max-width: 650px;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
     padding-bottom: 2em;
     justify-items: center;
 }
@@ -124,16 +124,18 @@ p {
 .title2 {
     color: #aa8c2c;
 }
-
 hr {
     border: 1px solid #49423a;
     border-radius: 20px;
     margin: 2em 0px;
 }
+#hero_text_title {
+    padding: 0 5px;
+}
 
 .game-board {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); 
+    grid-template-columns: repeat(5, 1fr);
     gap: 8px;
     margin-top: 7em;
     margin-bottom: 2em;
@@ -144,6 +146,7 @@ hr {
     color: #49423a;
     font-size: 10px;
     font-weight: 600;
+    text-transform: uppercase;
 }
 
 .game-board-cell {
@@ -153,53 +156,68 @@ hr {
     align-items: center;
     border: 2px solid #e4e5dc;
     background-color: #f5f5f1;
-    font-size: 8px;
-    aspect-ratio: calc(2.5/3.5);
-
-    -webkit-transition: background-color 500ms linear;
-    -ms-transition: background-color 500ms linear;
-    transition: background-color 500ms linear;
+    font-size: 7px;
+    /* aspect-ratio: calc(2.5/3.5); */
+    overflow: hidden;
 }
 
 .game-board-cell.guess {
-    background: none;
-    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: static;
+    position: relative;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: none;
+    border: none;
+
 }
 .game-board-cell.guess img {
     border-radius: 3px;
 }
 .game-board-cell.guess .icon {
-    width: 32px;
+    width: 28px;
     position: absolute;
     border-radius: 100%;
     border-style: solid;
     border-width: 2px;
 }
-
-.game-board-cell.set {
-
-}
 .game-board-cell.set img {
+    filter: drop-shadow(0px 0px 2px gray);
 }
 .game-board-cell.faction {
     align-items: start;
 }
 .game-board-cell.faction img {
-    width: 60%;
+    width: 70%;
+    filter: drop-shadow(0px 0px 2px gray);
 }
-.type {
+.game-board-cell.type .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100%;
+    width: 100%;
+}
+.game-board-cell.type .container p {
     text-transform: uppercase;
     font-weight: bold;
     color: #49423a;
+    align-content: center;
+    font-size: 9px;
 }
-.subtype {
-    text-transform: uppercase;
+.game-board-cell.cost .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100%;
+    width: 100%;
+}
+.cost_value {
+    font-size: 16px;
     font-weight: bold;
     color: #49423a;
+    text-transform: uppercase;
+    align-content: center;
+    letter-spacing: 3px;
 }
 
 .player-input {
@@ -281,6 +299,9 @@ button:focus {
 .partial {
     background-color: #f1f1c0;
     border-color: #c7c03d;
+}
+.neither {
+    border-color: #786f56;
 }
 
 .game_result img {

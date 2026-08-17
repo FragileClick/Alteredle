@@ -58,7 +58,7 @@ print(f'Received {len(rsp["member"])} Hero cards.')
 
 # STEP 2 - Format card data to neccessary schema
 cards_formatted = []
-card_collector_numbers = []
+card_collector_numbers = ["ROC-016-R-EN", "ROC-029-R-EN", "TBF-042-R-EN", "ROC-096-R-EN"]
 card_names = []
 img_url_template = 'https://cdn.alteredcore.org/cards/{lang}/{set}/{ref}.webp'      # Standard card images
 # img_url_template = 'https://cdn.alteredcore.org/cards_hd/{lang}/{set}/{ref}.jpg'  # HD cards images
@@ -100,6 +100,8 @@ for card in cards_api_raw:
         "type_fr": card['cardType']['name']['fr'],
         "subtype_en": '',
         "subtype_fr": '', # Cards can have multiple subtypes
+        "hand_cost": card['mainCost'],
+        "reserve_cost": card['recallCost'],
         "img_en": img_url_template.format(lang='en', set=card['set']['reference'], ref=card['reference']),
         "img_fr": img_url_template.format(lang='fr', set=card['set']['reference'], ref=card['reference'])
     }

@@ -6,7 +6,6 @@ const game_search_autocomplete = document.getElementById('game_search_autocomple
 const game_result              = document.getElementById('game_result')
 const game_result_img          = document.getElementById('game_result_img')
 const countdown                = document.getElementById('countdown')
-const gameBoard               = document.getElementById('gameBoard')
 
 // ----------------------------------------------------------------------------
 // GAME LOGIC FUNCTIONS
@@ -14,9 +13,6 @@ const gameBoard               = document.getElementById('gameBoard')
 
 // Function updates all page text to the selected language
 function setLanguage() {
-    // Re-draw gameboard in new language
-    drawGameBoard()
-
     // Update game text
     var copy = db.text[GAME.language]
     document.getElementById('hero_text') .innerText = copy.hero_text
@@ -24,7 +20,7 @@ function setLanguage() {
     document.getElementById('game_board_header_set').innerText = copy.game_board_header_set
     document.getElementById('game_board_header_faction').innerText = copy.game_board_header_faction
     document.getElementById('game_board_header_type').innerText = copy.game_board_header_type
-    document.getElementById('game_board_header_subtype').innerText = copy.game_board_header_subtype
+    document.getElementById('game_board_header_cost').innerText = copy.game_board_header_cost
     document.getElementById('countdown_title').innerText = copy.countdown_title
     document.getElementById('result_title_success').innerText = copy.result_title_success
     document.getElementById('result_subtitle_success').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_en).replace('ATTEMPTS', GAME.guesses.length)
@@ -141,110 +137,17 @@ function player_guess(card) {
     // Add game to save
     GAME.guesses.push(card.id)
     saveGame(GAME)
-    var curretGuessCount = GAME.guesses.length
 
-    // Select the game board elements that need to update
-    var tile_set        = document.getElementById('game_tile_set_'+curretGuessCount)
-    var tile_faction    = document.getElementById('game_tile_faction_'+curretGuessCount)
-    var tile_type       = document.getElementById('game_tile_type_'+curretGuessCount)
-    var tile_subtype    = document.getElementById('game_tile_subtype_'+curretGuessCount)
-    var guess_card      = document.getElementById('game_guess_card_'+curretGuessCount)
-    var guess_card_icon = document.getElementById('game_guess_card_icon_'+curretGuessCount)
-    var guess_set       = document.getElementById('game_guess_set_'+curretGuessCount)
-    var guess_faction   = document.getElementById('game_guess_faction_'+curretGuessCount)
-    var guess_type      = document.getElementById('game_guess_type_'+curretGuessCount)
-    var guess_subtype   = document.getElementById('game_guess_subtype_'+curretGuessCount)
-
-    // Write guess card attributes to gameboard
-    if (GAME.language=='fr') {
-       setTimeout(() => {
-            guess_card.src = card.img_fr
-            guess_card_icon.classList.add('icon')
-            if (card == TARGET_CARD) {
-                guess_card_icon.src = db.icons.true
-                guess_card_icon.classList.add('true')
-            } else {
-                guess_card_icon.src = db.icons.false
-                guess_card_icon.classList.add('false')
-            }
-        }, 500); 
-        setTimeout(() => {
-            guess_set.src = db.set['fr'][card.set]
-            if (card.set == TARGET_CARD.set) {
-                tile_set.classList.add('true')
-            } else {
-                tile_set.classList.add('false')
-            }
-        }, 1000); 
-        setTimeout(() => {
-            guess_faction.src = db.faction[card.faction-1]
-            if (card.faction == TARGET_CARD.faction) {
-                tile_faction.classList.add('true')
-            } else {
-                tile_faction.classList.add('false')
-            }
-        }, 1500); 
-        setTimeout(() => {
-            guess_type.innerText = card.type_fr
-            if (card.type_en == TARGET_CARD.type_en) {
-                tile_type.classList.add('true')
-            } else {
-                tile_type.classList.add('false')
-            }
-        }, 2000); 
-        setTimeout(() => {
-            guess_subtype.innerText = card.subtype_fr
-            tile_subtype.classList.add(checkSubtypes(card))
-        }, 2500); 
-    } else {
-        setTimeout(() => {
-            guess_card.src = card.img_en
-            guess_card_icon.classList.add('icon')
-            if (card == TARGET_CARD) {
-                guess_card_icon.src = db.icons.true
-                guess_card_icon.classList.add('true')
-            } else {
-                guess_card_icon.src = db.icons.false
-                guess_card_icon.classList.add('false')
-            }
-        }, 500); 
-        setTimeout(() => {
-            guess_set.src = db.set['en'][card.set]
-            if (card.set == TARGET_CARD.set) {
-                tile_set.classList.add('true')
-            } else {
-                tile_set.classList.add('false')
-            }
-        }, 1000); 
-        setTimeout(() => {
-            guess_faction.src = db.faction[card.faction-1]
-            if (card.faction == TARGET_CARD.faction) {
-                tile_faction.classList.add('true')
-            } else {
-                tile_faction.classList.add('false')
-            }
-        }, 1500); 
-        setTimeout(() => {
-            guess_type.innerText = card.type_en
-            if (card.type_en == TARGET_CARD.type_en) {
-                tile_type.classList.add('true')
-            } else {
-                tile_type.classList.add('false')
-            }
-        }, 2000); 
-        setTimeout(() => {
-            guess_subtype.innerText = card.subtype_en
-            tile_subtype.classList.add(checkSubtypes(card))
-        }, 2500); 
-    }
+    // Draw change to gameboard
+    drawGameBoard(animation=true)
 
     // Check if player has won/lost the game
     setTimeout(() => {
         var isGameOver = checkGameEndState()
         if (isGameOver) {
-            window.scrollTo({top: document.body.scrollHeight, left: 0,behavior: 'smooth'})    
+            document.getElementById('game_result_success').scrollIntoView({ behavior: 'smooth', block: 'start'})
         }
-    }, 3500);
+    }, 4000);
 }
 
 // Function checks if the game is done. Either win or loss.
@@ -314,53 +217,176 @@ function shareScore() {
 }
 
 // Function draws gameboard
-function drawGameBoard() {
+async function drawGameBoard(animation=false) {
     
-    // Write header
-    var gameBoardHeader = `
+    var game_board = document.getElementById('game_board')
+
+    // Empty gameboard & Write header
+    game_board.innerHTML = `
       <div><p class="game-col-header"></p></div>
       <div><p class="game-col-header" id="game_board_header_set"></p></div>
       <div><p class="game-col-header" id="game_board_header_faction"></p></div>
       <div><p class="game-col-header" id="game_board_header_type"></p></div>
-      <div><p class="game-col-header" id="game_board_header_subtype"></p></div>
+      <div><p class="game-col-header" id="game_board_header_cost"></p></div>
     `
-    // Empty gameboard
-    gameBoard.innerHTML = gameBoardHeader
+    setLanguage()
 
-    // Add rows to gameboard
+    // Repopulate game board with empty rows
     for (let row=1; row <= 6; row++) {
+        game_board.innerHTML += `
+            <div id="game_tile_guess_${row}" class="game-board-cell guess">
+                <img id="game_guess_card_icon_${row}">
+                <img id="game_guess_card_${row}" src=${db.cardBack}>
+            </div>
+            <div id="game_tile_set_${row}" class="game-board-cell set">
+                <img id="game_guess_set_${row}">
+            </div>
+            <div id="game_tile_faction_${row}" class="game-board-cell faction">
+                <img id="game_guess_faction_${row}">
+            </div>
+            <div id="game_tile_type_${row}" class="game-board-cell type">
+                <div class="container">
+                    <p id="game_guess_type_${row}"></p>
+                    <p id="game_guess_subtype_${row}"></p>
+                </div>
+            </div>
+            <div id="game_tile_cost_${row}" class="game-board-cell cost">
+                <div class="container">                        
+                    <p id="game_guess_cost_hand_${row}" class="cost_value"></p>
+                    <p id="game_guess_cost_reserve_${row}" class="cost_value"></p>
+                    </div>
+                </div>
+            </div>
+        `
+    }
 
-        // If the player has a guess in their save file draw the row with 
-        // the guessed card attributes. Otherwise, just draw an empty row.
-        if (row <= GAME.guesses.length) {
-            var card = getCardById(GAME.guesses[row-1])
-            if (GAME.language == 'fr') {
-                var gameBoardRow = `
-                    <div id="game_guess_${row}" class="game-board-cell guess"><img id="game_guess_card_icon_${row}" class="icon ${card==TARGET_CARD}" src="assets/${card==TARGET_CARD}.svg"><img id="game_guess_card_${row}" src=${card.img_fr}></div>
-                    <div id="game_tile_set_${row}" class="game-board-cell set ${card.set==TARGET_CARD.set}"><img id="game_guess_set_${row}" src="${db.set['fr'][card.set]}"></div>
-                    <div id="game_tile_faction_${row}" class="game-board-cell faction ${card.faction==TARGET_CARD.faction}"><img id="game_guess_faction_${row}" src="${db.faction[card.faction-1]}"></div>
-                    <div id="game_tile_type_${row}" class="game-board-cell type ${card.type_fr==TARGET_CARD.type_fr}"><p id="game_guess_type_${row}">${card.type_fr}</p></div>
-                    <div id="game_tile_subtype_${row}" class="game-board-cell subtype ${checkSubtypes(card)}"><p id="game_guess_subtype_${row}">${card.subtype_fr}</p></div>
-                `
-            } else {
-                var gameBoardRow = `
-                    <div id="game_guess_${row}" class="game-board-cell guess"><img id="game_guess_card_icon_${row}" class="icon ${card==TARGET_CARD}" src="assets/${card==TARGET_CARD}.svg"><img id="game_guess_card_${row}" src=${card.img_en}></div>
-                    <div id="game_tile_set_${row}" class="game-board-cell set ${card.set==TARGET_CARD.set}"><img id="game_guess_set_${row}" src="${db.set['en'][card.set]}"></div>
-                    <div id="game_tile_faction_${row}" class="game-board-cell faction ${card.faction==TARGET_CARD.faction}"><img id="game_guess_faction_${row}" src="${db.faction[card.faction-1]}"></div>
-                    <div id="game_tile_type_${row}" class="game-board-cell type ${card.type_en==TARGET_CARD.type_en}"><p id="game_guess_type_${row}">${card.type_en}</p></div>
-                    <div id="game_tile_subtype_${row}" class="game-board-cell subtype ${checkSubtypes(card)}"><p id="game_guess_subtype_${row}">${card.subtype_en}</p></div>
-                `
-            }
+    // Update game board with guess data
+    for (let row=1; row <= GAME.guesses.length; row++) {
+
+        // Select the game board elements that need to update
+        var tile_guess         = document.getElementById('game_tile_guess_'+row)
+        var tile_set           = document.getElementById('game_tile_set_'+row)
+        var tile_faction       = document.getElementById('game_tile_faction_'+row)
+        var tile_type          = document.getElementById('game_tile_type_'+row)
+        var tile_cost          = document.getElementById('game_tile_cost_'+row)
+        var guess_card         = document.getElementById('game_guess_card_'+row)
+        var guess_card_icon    = document.getElementById('game_guess_card_icon_'+row)
+        var guess_set          = document.getElementById('game_guess_set_'+row)
+        var guess_faction      = document.getElementById('game_guess_faction_'+row)
+        var guess_type         = document.getElementById('game_guess_type_'+row)
+        var guess_subtype      = document.getElementById('game_guess_subtype_'+row)
+        var guess_cost_hand    = document.getElementById('game_guess_cost_hand_'+row)
+        var guess_cost_reserve = document.getElementById('game_guess_cost_reserve_'+row)
+
+        // Pull card information
+        var card = getCardById(GAME.guesses[row-1])
+
+        // Ditermine animation time
+        if (row == GAME.guesses.length && animation) {
+            var speed = 250
         } else {
-            var gameBoardRow = `
-                <div class="game-board-cell guess"><img id="game_guess_card_icon_${row}"><img id="game_guess_card_${row}" src=${db.cardBack}></div>
-                <div id="game_tile_set_${row}" class="game-board-cell set"><img id="game_guess_set_${row}"></div>
-                <div id="game_tile_faction_${row}" class="game-board-cell faction"><img id="game_guess_faction_${row}"></div>
-                <div id="game_tile_type_${row}" class="game-board-cell type"><p id="game_guess_type_${row}"></p></div>
-                <div id="game_tile_subtype_${row}" class="game-board-cell subtype"><p id="game_guess_subtype_${row}"></p></div>
-            `
+            var speed = 0
         }
-        gameBoard.innerHTML += gameBoardRow
+
+        // CARD -------------------------------------------------------------------
+        await sleep(speed*1)
+        if (GAME.language == 'fr') {
+            guess_card.src = card.img_fr
+        } else {
+            guess_card.src = card.img_en
+        }
+        // if (card == TARGET_CARD) {
+        //     tile_guess.classList.add('true')
+        // } else {
+        //     tile_guess.classList.add('false')
+        // }
+        // CARD ICON
+        // guess_card_icon.classList.add('icon')
+        // if (card == TARGET_CARD) {
+        //     guess_card_icon.src = db.icons.true
+        //     guess_card_icon.classList.add('true')
+        // } else {
+        //     guess_card_icon.src = db.icons.false
+        //     guess_card_icon.classList.add('false')
+        // }
+        // SET --------------------------------------------------------------------
+        await sleep(speed*2)
+        if (GAME.language == 'fr') {
+            guess_set.src = db.set['fr'][card.set]
+        } else {
+            guess_set.src = db.set['en'][card.set]
+        }
+        if (card.set == TARGET_CARD.set) {
+            tile_set.classList.add('true')
+        } else {
+            tile_set.classList.add('false')
+        }
+        // FACTION ---------------------------------------------------------------
+        await sleep(speed*3)
+        guess_faction.src = db.faction[card.faction-1]
+        if (card.faction == TARGET_CARD.faction) {
+            tile_faction.classList.add('true')
+        } else {
+            tile_faction.classList.add('false')
+        }
+        // TYPE ------------------------------------------------------------------
+        await sleep(speed*4)
+        // TYPE
+        if (GAME.language == 'fr') {
+            guess_type.innerText = card.type_fr
+        } else {
+            guess_type.innerText = card.type_en
+        }
+        if (card.type_en == TARGET_CARD.type_en) {
+            guess_type.classList.add('true')
+        } else {
+            guess_type.classList.add('false')
+        }
+        // SUBTYPE
+        if (GAME.language == 'fr') {
+            guess_subtype.innerText = card.subtype_fr
+        } else {
+            guess_subtype.innerText = card.subtype_en
+        }
+        guess_subtype.classList.add(checkSubtypes(card))
+        // TYPE CONTAINER
+        if (card.type_en == TARGET_CARD.type_en && card.subtype_en == TARGET_CARD.subtype_en) {
+            tile_type.classList.add('true')
+        }
+        else if (card.type_en != TARGET_CARD.type_en && card.subtype_en != TARGET_CARD.subtype_en) {
+            tile_type.classList.add('false')
+        } 
+        else {
+            tile_type.classList.add('neither')
+        }
+        // COST --------------------------------------------------------------
+        await sleep(speed*5)
+        // HAND COST
+        var text = evalCardCost(card, 'hand')
+        guess_cost_hand.innerHTML = text
+        if (card.hand_cost == TARGET_CARD.hand_cost) {
+            guess_cost_hand.classList.add('true')
+        } else {
+            guess_cost_hand.classList.add('false')
+        }
+        // RESERVE COST
+        var text = evalCardCost(card, 'reserve')
+        guess_cost_reserve.innerHTML = text
+        if (card.reserve_cost == TARGET_CARD.reserve_cost) {
+            guess_cost_reserve.classList.add('true')
+        } else {
+            guess_cost_reserve.classList.add('false')
+        }
+        // COST CONTAINER
+        if (card.hand_cost == TARGET_CARD.hand_cost && card.reserve_cost == TARGET_CARD.reserve_cost) {
+            tile_cost.classList.add('true')
+        }
+        else if (card.hand_cost != TARGET_CARD.hand_cost && card.reserve_cost != TARGET_CARD.reserve_cost) {
+            tile_cost.classList.add('false')
+        } 
+        else {
+            tile_cost.classList.add('neither')
+        }
     }
 }
 
@@ -382,6 +408,41 @@ function checkSubtypes(card) {
     else {
         return 'false'
     }
+}
+
+// Function that builds card cost strings
+function evalCardCost(card, cost) {
+    const icon_hand = '<i class="fak fa-altered-h"></i>'
+    const icon_reserve = '<i class="fak fa-altered-r"></i>'
+
+    // Evaluate HAND cost
+    if (cost == 'hand') {
+        if (TARGET_CARD.hand_cost > card.hand_cost) {
+            return icon_hand + ' ↑'
+        }
+        else if (TARGET_CARD.hand_cost < card.hand_cost) {
+            return icon_hand + ' ↓'
+        }
+        else {
+            return `${icon_hand} ${card.hand_cost}`
+        }
+    } 
+    // Evaluate RESERVE cost
+    else if (cost == 'reserve') {
+        if (TARGET_CARD.reserve_cost > card.reserve_cost) {
+            return icon_reserve + ' ↑'
+        }
+        else if (TARGET_CARD.reserve_cost < card.reserve_cost) {
+            return icon_reserve + ' ↓'
+        }
+        else {
+            return `${icon_reserve} ${card.reserve_cost}`
+        }
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // ----------------------------------------------------------------------------
