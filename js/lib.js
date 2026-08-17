@@ -453,7 +453,8 @@ function sleep(ms) {
 // ----------------------------------------------------------------------------
 // CREATE a new cookies with the following name,value,expiration
 function createCookie(name,value) {
-	document.cookie = name+"="+value+"; path=/";
+	document.cookie = name+"="+value+"; path=/; max-age=604800";
+    // By default cookies live in / with 7 day expiration
 }
 // READ values of an existing cookie by name
 function readCookie(name) {
