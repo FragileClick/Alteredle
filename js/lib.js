@@ -28,6 +28,7 @@ function setLanguage() {
     document.getElementById('result_subtitle_failure').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_en)
     document.getElementById('footer_attribution_article').innerText = copy.footer_attribution_article
     document.getElementById('player_hint').innerText = copy.player_hint
+    document.getElementById('share_button_text').innerText = copy.share_button
 
     // Update language toggle icon
     const language_toggle_fr = document.getElementById('language_toggle_fr')
@@ -181,6 +182,8 @@ function checkGameEndState() {
 function setGameEndWin() {
     // Reveal result success
     game_result_success.classList.remove('hidden')
+    // Reveal share button
+    share_button.classList.remove('hidden')
     // Hide search input
     game_search_input.classList.add('hidden')
     // Hide hint
@@ -199,25 +202,6 @@ function setGameEndLose() {
     player_hint.classList.add('hidden')
     // Show countdown timer
     countdown.classList.remove('hidden')
-}
-
-// Function handles when player click share button
-function shareScore() {
-    if (navigator.share) {
-        navigator.share({
-            title: 'Alteredlt',
-            text: "\
-            🟩 🟥 🟩 🟩 🟥\
-            🟩 🟥 🟩 🟩 🟩\
-            🟩 🟩 🟩 🟩 🟩\
-            ⬜ ⬜ ⬜ ⬜ ⬜\
-            ⬜ ⬜ ⬜ ⬜ ⬜\
-            ⬜ ⬜ ⬜ ⬜ ⬜",
-            url: 'https://fragileclick.github.io/alteredle',
-        })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing', error));
-    }
 }
 
 // Function draws gameboard
@@ -292,6 +276,9 @@ async function drawGameBoard(animation=false) {
             var speed = 0
         }
 
+        // Add attribute for share text string
+        tile_guess.share_emoji_string = ''
+
         // CARD -------------------------------------------------------------------
         await sleep(speed*1)
         if (GAME.language == 'fr') {
@@ -305,14 +292,16 @@ async function drawGameBoard(animation=false) {
         //     tile_guess.classList.add('false')
         // }
         // CARD ICON
-        // guess_card_icon.classList.add('icon')
-        // if (card == TARGET_CARD) {
-        //     guess_card_icon.src = db.icons.true
-        //     guess_card_icon.classList.add('true')
-        // } else {
-        //     guess_card_icon.src = db.icons.false
-        //     guess_card_icon.classList.add('false')
-        // }
+        guess_card_icon.classList.add('icon')
+        if (card == TARGET_CARD) {
+            guess_card_icon.src = db.icons.true
+            guess_card_icon.classList.add('true')
+            tile_guess.share_emoji_string+="🟩"
+        } else {
+            guess_card_icon.src = db.icons.false
+            guess_card_icon.classList.add('false')
+            tile_guess.share_emoji_string+="🟥"
+        }
         // SET --------------------------------------------------------------------
         await sleep(speed*2)
         if (GAME.language == 'fr') {
@@ -322,16 +311,20 @@ async function drawGameBoard(animation=false) {
         }
         if (card.set == TARGET_CARD.set) {
             tile_set.classList.add('true')
+            tile_guess.share_emoji_string+="🟩"
         } else {
             tile_set.classList.add('false')
+            tile_guess.share_emoji_string+="🟥"
         }
         // FACTION ---------------------------------------------------------------
         await sleep(speed*3)
         guess_faction.src = db.faction[card.faction-1]
         if (card.faction == TARGET_CARD.faction) {
             tile_faction.classList.add('true')
+            tile_guess.share_emoji_string+="🟩"
         } else {
             tile_faction.classList.add('false')
+            tile_guess.share_emoji_string+="🟥"
         }
         // TYPE ------------------------------------------------------------------
         await sleep(speed*4)
@@ -356,12 +349,15 @@ async function drawGameBoard(animation=false) {
         // TYPE CONTAINER
         if (card.type_en == TARGET_CARD.type_en && card.subtype_en == TARGET_CARD.subtype_en) {
             tile_type.classList.add('true')
+            tile_guess.share_emoji_string+="🟩"
         }
         else if (card.type_en != TARGET_CARD.type_en && card.subtype_en != TARGET_CARD.subtype_en) {
             tile_type.classList.add('false')
+            tile_guess.share_emoji_string+="🟥"
         } 
         else {
             tile_type.classList.add('neither')
+            tile_guess.share_emoji_string+="🟨"
         }
         // COST --------------------------------------------------------------
         await sleep(speed*5)
@@ -384,12 +380,15 @@ async function drawGameBoard(animation=false) {
         // COST CONTAINER
         if (card.hand_cost == TARGET_CARD.hand_cost && card.reserve_cost == TARGET_CARD.reserve_cost) {
             tile_cost.classList.add('true')
+            tile_guess.share_emoji_string+="🟩"
         }
         else if (card.hand_cost != TARGET_CARD.hand_cost && card.reserve_cost != TARGET_CARD.reserve_cost) {
             tile_cost.classList.add('false')
+            tile_guess.share_emoji_string+="🟥"
         } 
         else {
             tile_cost.classList.add('neither')
+            tile_guess.share_emoji_string+="🟨"
         }
     }
 }

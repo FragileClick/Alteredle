@@ -139,7 +139,7 @@ hr {
     gap: 6px;
     margin-top: 7em;
     margin-bottom: 2em;
-    /* max-width: 500px; */
+    max-width: 600px;
 }
 
 .game-col-header {
@@ -176,7 +176,7 @@ hr {
     border-radius: 3px;
 }
 .game-board-cell.guess .icon {
-    width: 28px;
+    width: 40%;
     position: absolute;
     border-radius: 100%;
     border-style: solid;
@@ -369,4 +369,7 @@ a {
     border-color: #e5cf87;
     border-top-left-radius: 3px;
     border-bottom-right-radius: 3px;
+}
+#share_button_text {
+    font-family: Tiller;
 }
