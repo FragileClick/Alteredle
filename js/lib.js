@@ -27,8 +27,8 @@ function setLanguage() {
     document.getElementById('result_title_failure').innerText = copy.result_title_failure
     document.getElementById('result_subtitle_failure').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_en)
     document.getElementById('footer_attribution_article').innerText = copy.footer_attribution_article
-    document.getElementById('player_hint').innerText = copy.player_hint
-    document.getElementById('share_button_text').innerText = copy.share_button
+    document.getElementById('player_hint').innerHTML = copy.player_hint
+    document.getElementById('share_button_text').innerHTML = copy.share_button
 
     // Update language toggle icon
     const language_toggle_fr = document.getElementById('language_toggle_fr')
