@@ -372,4 +372,5 @@ a {
 }
 #share_button_text {
     font-family: Tiller;
+    font-size: clamp(14px, 2cqw, 16px);
 }
