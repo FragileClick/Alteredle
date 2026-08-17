@@ -58,7 +58,7 @@ function toggleLanguage() {
         GAME.language = 'fr'
     }
     saveGame(GAME)
-    setLanguage()
+    drawGameBoard()
 }
 // Function handles player search + input autocomplete
 function player_search(self) {
