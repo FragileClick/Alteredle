@@ -23,12 +23,19 @@ function setLanguage() {
     document.getElementById('game_board_header_cost').innerText = copy.game_board_header_cost
     document.getElementById('countdown_title').innerText = copy.countdown_title
     document.getElementById('result_title_success').innerText = copy.result_title_success
-    document.getElementById('result_subtitle_success').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_en).replace('ATTEMPTS', GAME.guesses.length)
     document.getElementById('result_title_failure').innerText = copy.result_title_failure
-    document.getElementById('result_subtitle_failure').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_en)
     document.getElementById('footer_attribution_article').innerText = copy.footer_attribution_article
     document.getElementById('player_hint').innerHTML = copy.player_hint
     document.getElementById('share_button_text').innerHTML = copy.share_button
+
+    if (GAME.language == 'fr') {
+        document.getElementById('result_subtitle_success').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_fr).replace('ATTEMPTS', GAME.guesses.length)
+        document.getElementById('result_subtitle_failure').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_fr)
+    }
+    else {
+        document.getElementById('result_subtitle_success').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_en).replace('ATTEMPTS', GAME.guesses.length)
+        document.getElementById('result_subtitle_failure').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_en)
+    }
 
     // Update language toggle icon
     const language_toggle_fr = document.getElementById('language_toggle_fr')
@@ -150,8 +157,18 @@ function player_guess(card) {
     // Check if player has won/lost the game
     setTimeout(() => {
         var isGameOver = checkGameEndState()
-        if (isGameOver) {
+        if ( isGameOver ) {
+            // Animated scroll to bottom revealing result
             window.scrollTo({top: document.body.scrollHeight, left: 0,behavior: 'smooth'}) 
+            // Report
+            umami.track(
+                'Completed Game',
+                {
+                    'result': isGameOver,
+                    'score': GAME.guesses.length,
+                    'board': getShareText()
+                }
+            )
         }
     }, 4500);
 }
@@ -165,7 +182,7 @@ function checkGameEndState() {
         // Show result
         setGameEndWin()
 
-        return true
+        return 'win'
     }
     // If player ran out of guess attempts, the game is over. Lose.
     if (GAME.guesses.length >= GAME.guessTotal) {
@@ -174,7 +191,7 @@ function checkGameEndState() {
         // Show result
         setGameEndLose()
 
-        return true
+        return 'lose'
     }
 }
 
@@ -444,6 +461,25 @@ function evalCardCost(card, cost) {
     }
 }
 
+// Function that builds the share text from the table results
+function getShareText() {
+    // This function generates the fun little emoji-graphics players
+    // can send to their friends using the SHARE button.
+    var share_text = `Alteredle #${dt_offset+1}`
+    for (let row=1; row <= 6; row++) {
+        var tile_guess = document.getElementById('game_tile_guess_'+row)
+
+        if (tile_guess.share_emoji_string) {
+            share_text += '\n'+tile_guess.share_emoji_string
+        }
+        else {
+            share_text += '\n⬜⬜⬜⬜⬜'
+        }
+    }
+    return share_text
+}
+
+// Async sleep implementation
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

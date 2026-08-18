@@ -36,26 +36,11 @@ document.onkeydown = function(e) {
 // Callback when player clicks share button
 let shareButton = document.getElementById('share_button');
 shareButton.addEventListener("click", async () => {
-
-    // Initialize text
-    var share_text = `Alteredle #${dt_offset+1}`
-
-    // Get text from rows
-    for (let row=1; row <= 6; row++) {
-        var tile_guess = document.getElementById('game_tile_guess_'+row)
-
-        if (tile_guess.share_emoji_string) {
-            share_text += '\n'+tile_guess.share_emoji_string
-        }
-        else {
-            share_text += '\n⬜⬜⬜⬜⬜'
-        }
-    }
-    // console.log(share_text)
-
     // Send text to device share menu
     try {
-        await navigator.share({text: share_text});
+        await navigator.share({
+            text: getShareText()
+        });
     } catch (err) {
         console.error("Share failed:", err.message);
     }
