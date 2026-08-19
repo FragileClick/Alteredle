@@ -58,7 +58,7 @@ print(f'Received {len(rsp["member"])} Hero cards.')
 
 # STEP 2 - Format card data to neccessary schema
 cards_formatted = []
-card_collector_numbers = ["ROC-016-R-EN", "ROC-029-R-EN", "TBF-042-R-EN", "ROC-096-R-EN"]
+card_collector_numbers = ["ROC-016-R-EN", "ROC-029-R-EN", "TBF-042-R-EN", "ROC-096-R-EN", "ROC-068-R-EN", "TBF-016-R-EN"]
 card_names = []
 img_url_template = 'https://cdn.alteredcore.org/cards/{lang}/{set}/{ref}.webp'      # Standard card images
 # img_url_template = 'https://cdn.alteredcore.org/cards_hd/{lang}/{set}/{ref}.jpg'  # HD cards images
@@ -83,6 +83,18 @@ for card in cards_api_raw:
     # Skip alt art
     if '-A-' in cn:
         continue
+    # Skip foilers
+    if card['name']['en'] == 'Foiler':
+        continue
+
+    # Update the original BTG landmakrs to the same type/subtype format used by later sets. 
+    # This means instead of being TYPE = Landmark, SUBTYPE = Permanent
+    # They are now TYPE = Landmark Permanent, SUBTYPE = ''
+    if card['set']['code'] == 'BTG' and card['cardType']['name']['en'] == 'Permanent':
+
+        card['cardType']['name']['en'] = 'Landmark Permanent'
+        card['cardType']['name']['fr'] = 'Repère Permanent'
+        card['cardSubTypes'] = []
 
     # Skip reprints. For example, heros printed in multiple sets.
     if card['name']['en'] in card_names:
