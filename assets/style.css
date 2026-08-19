@@ -197,24 +197,23 @@ hr {
     filter: drop-shadow(0px 0px 2px gray);
 }
 .game-board-cell.type .container {
-    display: grid;
-    grid-template-columns: 1fr;
     height: 100%;
     width: 100%;
 }
 .game-board-cell.type .container p {
+    height: 50%;
     text-transform: uppercase;
     font-weight: bold;
     color: #49423a;
     align-content: center;
     font-size: clamp(8px, 2cqw, 14px);
-    padding: 2px;
 }
 .game-board-cell.cost .container {
-    display: grid;
-    grid-template-columns: 1fr;
     height: 100%;
     width: 100%;
+}
+.game-board-cell.cost .container p {
+    height: 50%
 }
 .cost_value {
     font-size: clamp(14px, 2.5cqw, 20px);
