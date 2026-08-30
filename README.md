@@ -8,7 +8,7 @@
 
 ## How To Play?
 
-<h3 style="font-size:2em"><a href="https://fragileclick.github.io/Alteredle">Click to play Alteredle!</a></h3>
+<h3 style="font-size:3em"><a href="https://fragileclick.github.io/Alteredle">Click to play Alteredle!</a></h3>
 
 Play [Alteredle](https://fragileclick.github.io/Alteredle) in your browser or add-to-homescreen to install as a Progressive Web App (PWA).
 
@@ -16,14 +16,14 @@ Play [Alteredle](https://fragileclick.github.io/Alteredle) in your browser or ad
 
 ## Card List
 
-The card list contains cards from sets 1-6. For cards that were re-printed in multiple sets (ie. some Heroes) the list only include the earliest printing.
+The card list contains cards from sets 1-6. For cards that were re-printed in multiple sets (ie. some Heroes) the list only includes the earliest printing.
 
 | Set                          | Included | # Cards |
 |------------------------------|----------|---------|
 | Beyond The Gates (BTG)       | 🟢 Yes   | 180     |
 | Trial By Frost (TBF)         | 🟢 Yes   | 91      |
-| Whispers From The Maze (WFM) | 🟢 Yes   | 91      |
-| Skybound Odyssey (SKY)       | 🟢 Yes   | 108     |
+| Whispers From The Maze (WFM) | 🟢 Yes   | 92      |
+| Skybound Odyssey (SKY)       | 🟢 Yes   | 107     |
 | Seeds Of Unity (SDU)         | 🟢 Yes   | 105     |
 | Roots Of Corruption (ROC)    | 🟢 Yes   | 105     |
 | Neverending Journey (NEJ)    | 🔴 No    | 0       |

@@ -37,12 +37,17 @@ document.onkeydown = function(e) {
 let shareButton = document.getElementById('share_button');
 shareButton.addEventListener("click", async () => {
     // Send text to device share menu
-    try {
+    if (navigator.share) {
+        // If browser supports SHARE, open menu
         await navigator.share({
             text: getShareText()
         });
-    } catch (err) {
-        console.error("Share failed:", err.message);
+    }
+    else {
+        // If browser doesn't support (Firefox), copy to clipboard
+        var copy = db.text[GAME.language]
+        navigator.clipboard.writeText(getShareText())
+        .then(() => alert(copy.share_failover_text))
     }
 });
 

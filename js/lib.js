@@ -13,7 +13,7 @@ const countdown                = document.getElementById('countdown')
 
 // Function updates all page text to the selected language
 function setLanguage() {
-    // Update game text
+    // UPDATE GAME TEXT
     var copy = db.text[GAME.language]
     document.getElementById('hero_text') .innerText = copy.hero_text
     document.getElementById('game_search_input').placeholder = copy.input_hint
@@ -22,19 +22,39 @@ function setLanguage() {
     document.getElementById('game_board_header_type').innerText = copy.game_board_header_type
     document.getElementById('game_board_header_cost').innerText = copy.game_board_header_cost
     document.getElementById('countdown_title').innerText = copy.countdown_title
-    document.getElementById('result_title_success').innerText = copy.result_title_success
-    document.getElementById('result_title_failure').innerText = copy.result_title_failure
     document.getElementById('footer_attribution_article').innerText = copy.footer_attribution_article
     document.getElementById('player_hint').innerHTML = copy.player_hint
     document.getElementById('share_button_text').innerHTML = copy.share_button
 
+    // UPDATE RESULT TEXT DEPENDING ON LANGUAGE AND WIN/LOSE
+    const game_result_img = document.getElementById('game_result_img')
     if (GAME.language == 'fr') {
-        document.getElementById('result_subtitle_success').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_fr).replace('ATTEMPTS', GAME.guesses.length)
-        document.getElementById('result_subtitle_failure').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_fr)
+        if ( GAME.guesses.includes(TARGET_CARD.id) ) {
+            // IF GAME IS WON DRAW SUCCESS
+            document.getElementById('result_title').innerText = copy.result_title_success
+            document.getElementById('result_subtitle').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_fr).replace('ATTEMPTS', GAME.guesses.length)
+        }
+        else {
+            // IF GAME IS WON DRAW FAILURE
+            document.getElementById('result_title').innerText = copy.result_title_failure
+            document.getElementById('result_subtitle').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_fr)
+        }
+        // UPDATE CARD LANGUAGE
+        game_result_img.src = TARGET_CARD.img_fr
     }
     else {
-        document.getElementById('result_subtitle_success').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_en).replace('ATTEMPTS', GAME.guesses.length)
-        document.getElementById('result_subtitle_failure').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_en)
+        if ( GAME.guesses.includes(TARGET_CARD.id) ) {
+            // IF GAME IS WON DRAW SUCCESS
+            document.getElementById('result_title').innerText = copy.result_title_success
+            document.getElementById('result_subtitle').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_en).replace('ATTEMPTS', GAME.guesses.length)
+        }
+        else {
+            // IF GAME IS LOST, DRAW FAILURE
+            document.getElementById('result_title').innerText = copy.result_title_failure
+            document.getElementById('result_subtitle').innerHTML = copy.result_subtitle_failure.replace('CARD_NAME', TARGET_CARD.name_en)
+        }
+        // UPDATE CARD LANGUAGE
+        game_result_img.src = TARGET_CARD.img_en
     }
 
     // Update language toggle icon
@@ -46,16 +66,6 @@ function setLanguage() {
     } else {
         language_toggle_en.classList.remove('translucent')
         language_toggle_fr.classList.add('translucent')
-    }
-    // Update result result image
-    const game_result_img_success = document.getElementById('game_result_img_success')
-    const game_result_img_failure = document.getElementById('game_result_img_failure')
-    if (GAME.language == 'fr') {
-        game_result_img_success.src = TARGET_CARD.img_fr
-        game_result_img_failure.src = TARGET_CARD.img_fr
-    } else {
-        game_result_img_success.src = TARGET_CARD.img_en
-        game_result_img_failure.src = TARGET_CARD.img_en
     }
 }
 // Function toggles language between english and french
@@ -198,13 +208,13 @@ function checkGameEndState() {
 // Function updates game when player has WON the game
 function setGameEndWin() {
     // Reveal result success
-    game_result_success.classList.remove('hidden')
-    // Reveal share button
-    share_button.classList.remove('hidden')
+    game_result.classList.remove('hidden')
     // Hide search input
     game_search_input.classList.add('hidden')
     // Hide hint
     player_hint.classList.add('hidden')
+    // Reveal share button
+    share_button.classList.remove('hidden')
     // Show countdown timer
     countdown.classList.remove('hidden')
 }
@@ -212,11 +222,13 @@ function setGameEndWin() {
 // Function updates game when player has LOST the game
 function setGameEndLose() {
     // Reveal result success
-    game_result_failure.classList.remove('hidden')
+    game_result.classList.remove('hidden')
     // Hide search input
     game_search_input.classList.add('hidden')
     // Hide hint
     player_hint.classList.add('hidden')
+    // Reveal share button
+    share_button.classList.remove('hidden')
     // Show countdown timer
     countdown.classList.remove('hidden')
 }
@@ -240,7 +252,7 @@ async function drawGameBoard(animation=false) {
     for (let row=1; row <= 6; row++) {
         game_board.innerHTML += `
             <div id="game_tile_guess_${row}" class="game-board-cell guess">
-                <img id="game_guess_card_icon_${row}">
+                <img id="game_guess_card_icon_${row}" class="icon">
                 <img id="game_guess_card_${row}" src=${db.cardBack}>
             </div>
             <div id="game_tile_set_${row}" class="game-board-cell set">

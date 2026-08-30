@@ -51,16 +51,14 @@
     <div id="game_board" class="game-board">
     </div>
     <div><a id="player_hint" class="altered_button" href="https://github.com/FragileClick/Alteredle#card-list"></a></div>
-    <div id="game_result_success" class="game_result hidden">
-      <h1 id="result_title_success" class="title1"></h1>
-      <p id="result_subtitle_success"></p>
-      <img id="game_result_img_success" src="assets/cardback.webp">
-    </div>
-    <div id="game_result_failure" class="game_result hidden">
-      <h1 id="result_title_failure" class="title1">So close!</h1>
-      <p id="result_subtitle_failure"></p>
-      <img id="game_result_img_failure" src="assets/cardback.webp">
-    </div>
+    <div id="game_result" class="game_result hidden">
+      <h1 id="result_title" class="title1"></h1>
+      <p id="result_subtitle"></p>
+      <div id="result_card_container" onPointerEnter="cardAnimationStart(event)" onPointerMove="cardAnimationMove(event)" onPointerLeave="cardAnimationStop(event)">
+        <img id="game_result_img" src="assets/cardback.webp" draggable="false">
+        <div id="result_card_specular_overlay"></div>
+      </div>
+    </div>  
     <button id="share_button" class="altered_button hidden"><p id="share_button_text" class="altered_button_text"></p></button>
   </div>
   <footer>
@@ -75,5 +73,6 @@
 <script type="text/javascript" src="js/lib.js"></script>
 <script type="text/javascript" src="js/db.js"></script>
 <script type="text/javascript" src="js/countdown.js"></script>
+<script type="text/javascript" src="js/cardanimation.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 </html>
