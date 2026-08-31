@@ -156,6 +156,7 @@ function player_guess(card) {
     // Clear inbox + hide autocomplete menu
     game_search_input.value = ""
     game_search_autocomplete.classList.add('hidden')
+    game_search_autocomplete.innerHTML = ''
 
     // Add game to save
     GAME.guesses.push(card.id)
@@ -315,22 +316,6 @@ async function drawGameBoard(animation=false) {
         } else {
             guess_card.src = card.img_en
         }
-        // if (card == TARGET_CARD) {
-        //     tile_guess.classList.add('true')
-        // } else {
-        //     tile_guess.classList.add('false')
-        // }
-        // CARD ICON
-        guess_card_icon.classList.add('icon')
-        if (card == TARGET_CARD) {
-            guess_card_icon.src = db.icons.true
-            guess_card_icon.classList.add('true')
-            tile_guess.share_emoji_string+="🟩"
-        } else {
-            guess_card_icon.src = db.icons.false
-            guess_card_icon.classList.add('false')
-            tile_guess.share_emoji_string+="🟥"
-        }
         // SET --------------------------------------------------------------------
         await sleep(speed*2)
         if (GAME.language == 'fr') {
@@ -418,6 +403,18 @@ async function drawGameBoard(animation=false) {
         else {
             tile_cost.classList.add('neither')
             tile_guess.share_emoji_string+="🟨"
+        }
+        // CARD ICON --------------------------------------------------------------
+        await sleep(speed*6)
+        guess_card_icon.classList.add('icon')
+        if (card == TARGET_CARD) {
+            guess_card_icon.src = db.icons.true
+            guess_card_icon.classList.add('true')
+            tile_guess.share_emoji_string+="🟩"
+        } else {
+            guess_card_icon.src = db.icons.false
+            guess_card_icon.classList.add('false')
+            tile_guess.share_emoji_string+="🟥"
         }
     }
 }

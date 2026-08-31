@@ -27,7 +27,7 @@ game_search_autocomplete.addEventListener('click', function(e) {
     player_guess(e.target.card)
 });
 // Callback when player hits ENTER to submit a guess
-document.onkeydown = function(e) {
+document.onkeydown = function(event) {
     if(event.keyCode == '13') {
         var e = document.getElementsByClassName('selected')[0]
         player_guess(e.card)
