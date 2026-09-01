@@ -208,6 +208,15 @@ function checkGameEndState() {
 
 // Function updates game when player has WON the game
 function setGameEndWin() {
+    // Set card animation based on score
+    // Win gets animation. Win under 3 wins foil.
+    if (GAME.guesses.length <= 3) {
+        card_animation_type = 'foil'
+        result_card_foil_overlay.classList.remove('hidden')
+    }
+    else {
+        card_animation_type = 'normal'
+    }
     // Reveal result success
     game_result.classList.remove('hidden')
     // Hide search input
