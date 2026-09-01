@@ -484,6 +484,12 @@ function getShareText() {
     // This function generates the fun little emoji-graphics players
     // can send to their friends using the SHARE button.
     var share_text = `Alteredle #${dt_offset+1}`
+
+    // If player earned foil they get a sparkle :)
+    if (card_animation_type == 'foil') {
+        share_text += ' ✨'
+    }
+
     for (let row=1; row <= 6; row++) {
         var tile_guess = document.getElementById('game_tile_guess_'+row)
 
