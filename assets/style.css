@@ -322,7 +322,7 @@ button:focus {
     margin: 0 auto;
     position: relative;
     border-radius: 14px;
-    overflow: auto;
+    overflow: hidden;
     filter: drop-shadow(0 0 0.75rem gray);
     max-width: 350px;
     transition: all 0.2s ease-out;
