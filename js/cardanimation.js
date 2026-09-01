@@ -13,9 +13,9 @@ function cardAnimationStart(ev) {
     if (card_animation_type == 'normal' || card_animation_type == 'foil') {
         current_bounding_ref = ev.currentTarget.getBoundingClientRect();
         ev.currentTarget.style.setProperty("touch-action", "none");
-        ev.currentTarget.style.setProperty("scale", "101%");
     }
     if (card_animation_type == 'foil') {
+        ev.currentTarget.style.setProperty("scale", "102%");
         result_card_foil_overlay.classList.remove('hidden')
         result_card_foil_overlay.style.setProperty("filter", 'opacity(0.5)')
     }
@@ -46,7 +46,7 @@ function cardAnimationMove(ev) {
 
     if (card_animation_type == 'normal' || card_animation_type == 'foil') {
         ev.currentTarget.style.setProperty("transform", `rotateX(${yRotation}deg) rotateY(${xRotation}deg)`);    
-        result_card_specular_overlay.style.setProperty('background-image', `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.4) 10%, transparent 80%)`)
+        result_card_specular_overlay.style.setProperty('background-image', `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.6) 10%, transparent 80%)`)
     }
     if (card_animation_type == 'foil') {
         result_card_foil_overlay.style.setProperty("transform", `translate(${xPercentage*30}%, ${yPercentage*30}%) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`)
