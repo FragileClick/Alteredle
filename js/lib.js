@@ -325,6 +325,11 @@ async function drawGameBoard(animation=false) {
         } else {
             guess_card.src = card.img_en
         }
+        if (card == TARGET_CARD) {
+            tile_guess.share_emoji_string+="🟩"
+        } else {
+            tile_guess.share_emoji_string+="🟥"
+        }
         // SET --------------------------------------------------------------------
         await sleep(speed*2)
         if (GAME.language == 'fr') {
@@ -419,11 +424,9 @@ async function drawGameBoard(animation=false) {
         if (card == TARGET_CARD) {
             guess_card_icon.src = db.icons.true
             guess_card_icon.classList.add('true')
-            tile_guess.share_emoji_string+="🟩"
         } else {
             guess_card_icon.src = db.icons.false
             guess_card_icon.classList.add('false')
-            tile_guess.share_emoji_string+="🟥"
         }
     }
 }
