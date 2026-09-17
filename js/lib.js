@@ -142,7 +142,7 @@ function player_search() {
             game_search_autocomplete.appendChild(li)
 
             // Show the the top 10 results, at most
-            if (i>3) {
+            if (i>4) {
                 break
             }
         }
