@@ -2,11 +2,10 @@ services:
   alteredle:
     container_name: alteredle-api
     ports:
-        - 5001:5000
+        - 5005:5000
     volumes:
-        - apps/api/db.sqlite:/python-docker/db.sqlite
+        - ./db.sqlite:/python-docker/db.sqlite
     build:
-      context: alteredle
-      dockerfile: alteredle/Dockerfile
+      dockerfile: Dockerfile
       no_cache: true
     restart: unless-stopped

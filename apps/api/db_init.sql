@@ -39,6 +39,3 @@ FULL JOIN share_counts SC ON PR.puzzle_id = SC.puzzle_id
 GROUP BY pr.puzzle_id
 ORDER BY pr.puzzle_id DESC
 ;
-
--- INSERT INTO player_results (timestamp,puzzle_id,result,score,guesses,board) VALUES ("",0,"",0,"","");
--- INSERT INTO player_shares (timestamp,puzzle_id) VALUES ("",0);
