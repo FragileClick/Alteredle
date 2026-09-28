@@ -5,14 +5,14 @@ from pathlib import Path
 import logging
 
 app = Flask(__name__)
-DATABASE_PATH = 'apps/api/db.sqlite'
+DATABASE_PATH = 'db.sqlite'
 
 # Check if DB exists. If it doesn't initialize a new DB.
 if not Path(DATABASE_PATH).is_file():
     logging.info(f'No DB found. Creating new DB at {DATABASE_PATH}')
 
     # Import the DB definition
-    with open('apps/api/db_init.sql', 'r') as f:
+    with open('db_init.sql', 'r') as f:
         db_init = f.read()
     # Import the DB definition
     with sqlite3.connect(DATABASE_PATH) as conn:
