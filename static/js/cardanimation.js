@@ -55,5 +55,7 @@ function cardAnimationMove(ev) {
 // Prevent page scroll while card is selected
 const element = document.getElementById('game_result_img')
 element.addEventListener('touchmove', (e) => {
-    e.preventDefault(); 
+    if (card_animation_type != 'none') {
+        e.preventDefault(); 
+    }
 }, { passive: false });

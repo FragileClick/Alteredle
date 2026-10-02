@@ -1,0 +1,63 @@
+{% set title = "Alteredle" %}
+{% extends "base.html" %}
+
+{% block content %}
+<div id="game">
+    <img class="banner-img" src="https://cdn.alteredcore.org/illustrations_hd/CORE/ALT_CORE_B_AX_11_C_FRAMELESS_T3.jpg">
+    <h1 id="hero_text_title"><span id="hero_text" class="title1">Welcome, </span><span class="title2">{{ player.name }}</span></h1>
+
+    <div id="puzzle_stats"> 
+      <div class="puzzle_stats_grid">
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">10</p>
+          <p class="stat_title">GAMES <i class="fa-kit fa-collection"></i></p>
+          <p class="stat_description">Total games played</p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">4.3</p>
+          <p class="stat_title">SCORE <i class="fa-kit fa-altered-x"></i></p>
+          <p class="stat_description">Average score</p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">8</p>
+          <p class="stat_title">SOLVED <i class="fa-kit fa-alt-wchampion2"></i></p>
+          <p class="stat_description">Total puzzles solved</p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">3</p>
+          <p class="stat_title">FOILS ✨</p>
+          <p class="stat_description">Puzzles solved in 3 or less</p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">10</p>
+          <p class="stat_title">SHARES <i class="fa-kit fa-altered-j"></i></p>
+          <p class="stat_description">Total results shared</p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">54</p>
+          <p class="stat_title">GUESSES <i class="fa-kit fa-altered-swirl"></i></i></p>
+          <p class="stat_description">Total guesses</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="puzzle_archive">
+
+      {% for i in range(30) %}
+
+        <a href="#"><img src="/static/assets/cardback.webp"></a>
+
+      {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="static/js/fuse.js"></script>
+<script type="text/javascript" src="static/js/lib.js"></script>
+<script type="text/javascript" src="static/js/db.js"></script>
+<script type="text/javascript" src="static/js/countdown.js"></script>
+<script type="text/javascript" src="static/js/cardanimation.js"></script>
+<script type="text/javascript" src="static/js/main.js"></script>
+{% endblock %}

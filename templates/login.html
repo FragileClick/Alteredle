@@ -1,0 +1,31 @@
+{% set title = "Alteredle" %}
+{% extends "base.html" %}
+
+{% block content %}
+<div id="game">
+    <img class="banner-img" src="https://cdn.alteredcore.org/illustrations_hd/CORE/ALT_CORE_B_MU_25_C_FRAMELESS_T1.jpg">
+    <h1 id="hero_text_title"><span id="hero_text" class="title1">Track your stats with </span><span class="title2">RE:Union</span></h1>
+
+    <button class="connect_reunion_button">
+        <div>
+            <img src="static/assets/reunion.png">
+            <h1>Connect Re:Union</h1>
+        </div>
+    </button>
+
+    <div class="altered_card">
+        <p>Connect <b>Re:Union</b> to track your progress, see your stats and access the puzzle archive!</p>
+        <h3><i class="fa-kit fa-altered-swirl"></i></h3>
+        <p><a href="https://altered.re/">Create a Re:Union account</a></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="static/js/fuse.js"></script>
+<script type="text/javascript" src="static/js/lib.js"></script>
+<script type="text/javascript" src="static/js/db.js"></script>
+<script type="text/javascript" src="static/js/countdown.js"></script>
+<script type="text/javascript" src="static/js/cardanimation.js"></script>
+<script type="text/javascript" src="static/js/main.js"></script>
+{% endblock %}

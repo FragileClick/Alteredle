@@ -310,7 +310,7 @@ async function drawGameBoard(animation=false) {
 
         // Ditermine animation time
         if (row == GAME.guesses.length && animation) {
-            var speed = 250
+            var speed = 150
         } else {
             var speed = 0
         }

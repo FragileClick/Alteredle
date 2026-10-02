@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <!-- Title & Style -->
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="static/assets/style.css">
+        <!-- Icons -->
+        <link rel="icon" href="static/assets/icon.svg" type="image/x-icon">
+        <link rel="apple-touch-icon" href="static/assets/icon.png">
+        <link rel="stylesheet" href="static/assets/alteredicons.css">
+        <!-- PWA -->
+        <link rel="manifest" href="manifest.json">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-title" content="Alteredle">
+        <meta name="theme-color" content="#f5f5f1">
+        <!-- Link embed summary -->
+        <meta property="og:title" content="Alteredle">
+        <meta property="og:description" content="Card guessing game for Altered TCG. Jeu de devinettes de cartes pour Altered TCG.">
+        <meta property="og:url" content="https://fragileclick.github.io/Alteredle">
+        <meta property="og:image" content="https://fragileclick.github.io/Alteredle/docs/banner.jpg">
+        <meta name="twitter:card" content="summary_large_image">
+        <!-- Report -->
+        <script src="https://cloud.umami.is/script.js" data-website-id="9b839b1e-deb3-499e-bdee-0bb36518a197"></script>
+    </head>
+    <body>
+        <header>
+            <div class="header-content">
+                <a class="title" href="/"><span class="title1">Altered</span><span class="title2">le</span></a>
+                <div class="header-buttons">
+                    <button id="language_toggle" class="header-button" onclick="toggleLanguage()">
+                        <span id="language_toggle_fr">🇫🇷</span>
+                        <span> / </span>
+                        <span id="language_toggle_en">🇬🇧</span>
+                    </button>
+                    <a id="account_button" class="header-button" href="/collection">
+                        <img src="static/assets/reunion.png">
+                    </a>
+                </div>
+            </div>
+        </header>
+        {% block content %}{% endblock %}
+        <footer>
+            <div class="header-content">
+            <p><b><span class="title1">ALTERED</span><span class="title2">LE</span></b> <span
+                id="footer_attribution_article"></span> <a href="https://github.com/FragileClick/Alteredle" target="_blank" rel="noopener noreferrer">FragileClick</a></p>
+            <img src="https://cdn.alteredcore.org/marketing/fan_content/LOGO_ALTERED_BLACK_WATERMARK.png" class="watermark">
+            </div>
+        </footer>
+    </body>
+    {% block scripts %}{% endblock %}
+</html>
