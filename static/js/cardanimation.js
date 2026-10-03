@@ -37,6 +37,11 @@ function cardAnimationStop(ev) {
 }
 // CALLBACK POINTER MOVE OVER CARD
 function cardAnimationMove(ev) {
+
+    if (!current_bounding_ref) {
+        return
+    }
+
     const x = ev.clientX - current_bounding_ref.left;
     const y = ev.clientY - current_bounding_ref.top;
     const xPercentage = x / current_bounding_ref.width;

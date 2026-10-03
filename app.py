@@ -2,28 +2,34 @@ import uuid
 from functools import wraps
 
 # Initialize Flask
-from flask import Flask, render_template, request, redirect, make_response, url_for
+from flask import Flask, render_template, request, redirect, make_response, jsonify
 from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 bcrypt = Bcrypt(app)
 
 # Initialize Database if doesn't already exist
+init = False
 from db import *
 for model in [
-    PlayerModel, 
-    CardModel, 
-    PuzzleModel, 
-    GuessModel, 
-    ShareModel, 
-    GamesModel, 
-    StatsModel
+        PlayerModel,
+        ShareModel,
+        GamesModel
     ]:
     if not db.table_exists(model):
         model.create_table()
+        init = True
+
+if init:
+    test_user, c = PlayerModel.get_or_create(
+        username = 'Test',
+        session_token = 'test',
+        session_expiration = (datetime.datetime.now() + datetime.timedelta(days=90)).isoformat()
+    )
 
 # Initialize Game
 from player import Player
+from game import Game
 
 def login_required(f):
     @wraps(f)
@@ -95,6 +101,38 @@ def logout():
 @login_required
 def collection(player):
     return render_template('collection.html', player=player)
+
+@app.route('/save/game/', methods=["POST"])
+@login_required
+def saveGame(player):
+
+    save = request.get_json()
+    save_puzzle = save.get('puzzle', '')
+    save_guesses = save.get('guesses', '')
+
+    game = Game(
+        player=player.id,
+        puzzle=save_puzzle
+    )
+    game.save(','.join(save_guesses))
+
+    return "success", 200
+
+@app.route('/load/game/', methods=["POST"])
+@login_required
+def loadGame(player):
+
+    load = request.get_json()
+    load_puzzle = load.get('puzzle', '')
+
+    game = Game(
+        player=player.id,
+        puzzle=load_puzzle
+    )
+
+    return jsonify({
+        'guesses': game.guesses
+    })
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5001)

@@ -29,7 +29,7 @@ function setLanguage() {
     // UPDATE RESULT TEXT DEPENDING ON LANGUAGE AND WIN/LOSE
     const game_result_img = document.getElementById('game_result_img')
     if (GAME.language == 'fr') {
-        if ( GAME.guesses.includes(TARGET_CARD.id) ) {
+        if ( GAME.guesses.includes(TARGET_CARD.collector_number) ) {
             // IF GAME IS WON DRAW SUCCESS
             document.getElementById('result_title').innerText = copy.result_title_success
             document.getElementById('result_subtitle').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_fr).replace('ATTEMPTS', GAME.guesses.length)
@@ -43,7 +43,7 @@ function setLanguage() {
         game_result_img.src = TARGET_CARD.img_fr
     }
     else {
-        if ( GAME.guesses.includes(TARGET_CARD.id) ) {
+        if ( GAME.guesses.includes(TARGET_CARD.collector_number) ) {
             // IF GAME IS WON DRAW SUCCESS
             document.getElementById('result_title').innerText = copy.result_title_success
             document.getElementById('result_subtitle').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_en).replace('ATTEMPTS', GAME.guesses.length)
@@ -159,7 +159,7 @@ function player_guess(card) {
     game_search_autocomplete.innerHTML = ''
 
     // Add game to save
-    GAME.guesses.push(card.id)
+    GAME.guesses.push(card.collector_number)
     saveGame(GAME)
 
     // Draw change to gameboard
@@ -187,7 +187,7 @@ function player_guess(card) {
 // Function checks if the game is done. Either win or loss.
 function checkGameEndState() {
     // If player guessed the correct card, the game is over. Win.
-    if (GAME.guesses.includes(TARGET_CARD.id)) {
+    if (GAME.guesses.includes(TARGET_CARD.collector_number)) {
         // Redraw text
         setLanguage()
         // Show result
@@ -306,7 +306,7 @@ async function drawGameBoard(animation=false) {
         var guess_cost_reserve = document.getElementById('game_guess_cost_reserve_'+row)
 
         // Pull card information
-        var card = getCardById(GAME.guesses[row-1])
+        var card = getCardByCollectorNumber(GAME.guesses[row-1])
 
         // Ditermine animation time
         if (row == GAME.guesses.length && animation) {
@@ -438,12 +438,12 @@ function checkSubtypes(card) {
     //   "partial"  Guessed card has SOME of the subtypes as target card
     //   "false"    Guessed card has NONE of the subtypes as target card
     var card_subtypes = card.subtype_en.trim().split(' ')
-    var target_card_subtypes = TARGET_CARD.subtype_en.trim().split(' ')
+    var puzzle_subtypes = TARGET_CARD.subtype_en.trim().split(' ')
 
     if (card.subtype_en==TARGET_CARD.subtype_en) {
         return 'true'
     }
-    else if ( card_subtypes.some(element => target_card_subtypes.includes(element)) ) {
+    else if ( card_subtypes.some(element => puzzle_subtypes.includes(element)) ) {
         return 'partial'
     }
     else {
@@ -536,9 +536,11 @@ function eraseCookie(name) {
 }
 // SAVE Game
 function saveGame(game) {
+    createCookie('ALTEREDLE_PUZZLE', TARGET_CARD.collector_number),
     createCookie('ALTEREDLE_LANGAUGE', game.language),
     createCookie('ALTEREDLE_GUESSES', String(game.guesses)),
     createCookie('ALTEREDLE_LAST_UPDATE', new Date().toISOString())
+    saveGameServer(game)
 }
 // LOAD Game
 function loadGame() {
@@ -555,12 +557,19 @@ function loadGame() {
         createCookie('ALTEREDLE_GUESSES', ''),
         createCookie('ALTEREDLE_LAST_UPDATE', new Date().toISOString())
     }
+
     // Load game state from browser cookie save
     var state = {
+        'puzzle': readCookie('ALTEREDLE_PUZZLE'),
         'language': readCookie('ALTEREDLE_LANGAUGE'),
         'guesses': readCookie('ALTEREDLE_GUESSES') ? readCookie('ALTEREDLE_GUESSES').split(',') : [],
         'lastUpdate': new Date(readCookie('ALTEREDLE_LAST_UPDATE')),
         'guessTotal': 6
+    }
+
+    // If player is logged in, attempt to load save game
+    if (readCookie('ALTEREDLE_PLAYER_SESSION')) {
+        loadGameServer(state.puzzle)
     }
 
     // If it's a new day, reset puzzle
@@ -569,8 +578,64 @@ function loadGame() {
 
     if (lastUpdateDate != todayDate) {
         state.guesses = []
+        state.puzzle = ''
         saveGame(state)
     }
     return state
 
+}
+
+// SEND Game save to server to record progress
+function saveGameServer(game) {
+    try {
+        fetch(
+            'save/game', 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'puzzle': game.puzzle,
+                    'result': game.result,
+                    'score': game.score,
+                    'guesses': game.guesses
+                })
+            }
+        )
+    } catch {
+        console.error('Failed to save game')
+    }
+}
+
+// SEND Game save to server to record progress
+function loadGameServer(puzzle) {
+    try {
+        return fetch(
+            'load/game', 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'puzzle': puzzle
+                })
+            }
+        ).then((response) => {
+            return response.json()
+        })
+       .then((save) => {
+            createCookie('ALTEREDLE_GUESSES', save.guesses)
+            GAME.guesses = readCookie('ALTEREDLE_GUESSES') ? readCookie('ALTEREDLE_GUESSES').split(',') : []
+
+            // DRAW GAMEBOARD
+            drawGameBoard()
+            // CHECK IF GAME IS ALREADY WON
+            checkGameEndState()
+
+        })
+    } catch {
+        console.error('Failed to save game')
+    }
 }
