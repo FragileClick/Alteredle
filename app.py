@@ -105,34 +105,38 @@ def collection(player):
 @app.route('/save/game/', methods=["POST"])
 @login_required
 def saveGame(player):
-
     save = request.get_json()
     save_puzzle = save.get('puzzle', '')
     save_guesses = save.get('guesses', '')
-
     game = Game(
         player=player.id,
         puzzle=save_puzzle
     )
     game.save(','.join(save_guesses))
+    return "success", 200
 
+@app.route('/save/share/', methods=["POST"])
+@login_required
+def saveShare(player):
+    share = request.get_json()
+    share_puzzle = share.get('puzzle', '')
+    r,c = ShareModel.get_or_create(
+        player=player.id,
+        puzzle=share_puzzle
+    )
+    r.save()
     return "success", 200
 
 @app.route('/load/game/', methods=["POST"])
 @login_required
 def loadGame(player):
-
     load = request.get_json()
     load_puzzle = load.get('puzzle', '')
-
     game = Game(
         player=player.id,
         puzzle=load_puzzle
     )
-
-    return jsonify({
-        'guesses': game.guesses
-    })
+    return jsonify({'guesses': game.guesses})
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5001)

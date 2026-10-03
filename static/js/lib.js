@@ -4,7 +4,7 @@
 // Game elements
 const game_search_autocomplete = document.getElementById('game_search_autocomplete')
 const game_result              = document.getElementById('game_result')
-const game_result_img          = document.getElementById('game_result_img')
+const game_result_img          = document.getElementsByClassName('game_result_img')[0]
 const countdown                = document.getElementById('countdown')
 
 // ----------------------------------------------------------------------------
@@ -27,7 +27,6 @@ function setLanguage() {
     document.getElementById('share_button_text').innerHTML = copy.share_button
 
     // UPDATE RESULT TEXT DEPENDING ON LANGUAGE AND WIN/LOSE
-    const game_result_img = document.getElementById('game_result_img')
     if (GAME.language == 'fr') {
         if ( GAME.guesses.includes(TARGET_CARD.collector_number) ) {
             // IF GAME IS WON DRAW SUCCESS
@@ -56,17 +55,6 @@ function setLanguage() {
         // UPDATE CARD LANGUAGE
         game_result_img.src = TARGET_CARD.img_en
     }
-
-    // Update language toggle icon
-    const language_toggle_fr = document.getElementById('language_toggle_fr')
-    const language_toggle_en = document.getElementById('language_toggle_en')
-    if (GAME.language=='fr') {
-        language_toggle_en.classList.add('translucent')
-        language_toggle_fr.classList.remove('translucent')
-    } else {
-        language_toggle_en.classList.remove('translucent')
-        language_toggle_fr.classList.add('translucent')
-    }
 }
 // Function toggles language between english and french
 function toggleLanguage() {
@@ -78,11 +66,22 @@ function toggleLanguage() {
     // Save new language
     saveGame(GAME)
     // Redraw game in new langauge
-    drawGameBoard()
-    // Clear search and close autocomplete
-    game_search_input.value = ""
-    game_search_autocomplete.classList.add('hidden')
+    drawPage()
 }
+// Update state of the langauge toggle button
+function updateLangaugeToggle() {
+    // Update language toggle icon
+    const language_toggle_fr = document.getElementById('language_toggle_fr')
+    const language_toggle_en = document.getElementById('language_toggle_en')
+    if (GAME.language=='fr') {
+        language_toggle_en.classList.add('translucent')
+        language_toggle_fr.classList.remove('translucent')
+    } else {
+        language_toggle_en.classList.remove('translucent')
+        language_toggle_fr.classList.add('translucent')
+    }
+}
+
 // Function handles player search + input autocomplete
 function player_search() {
     // Get player search query string
@@ -536,9 +535,11 @@ function eraseCookie(name) {
 }
 // SAVE Game
 function saveGame(game) {
-    createCookie('ALTEREDLE_PUZZLE', TARGET_CARD.collector_number),
-    createCookie('ALTEREDLE_LANGAUGE', game.language),
-    createCookie('ALTEREDLE_GUESSES', String(game.guesses)),
+    if (typeof TARGET_CARD !== 'undefined') {
+        createCookie('ALTEREDLE_PUZZLE', TARGET_CARD.collector_number)
+    }
+    createCookie('ALTEREDLE_LANGAUGE', game.language)
+    createCookie('ALTEREDLE_GUESSES', String(game.guesses))
     createCookie('ALTEREDLE_LAST_UPDATE', new Date().toISOString())
     saveGameServer(game)
 }
@@ -567,7 +568,7 @@ function loadGame() {
         'guessTotal': 6
     }
 
-    // If player is logged in, attempt to load save game
+    // If player is logged in, load save game
     if (readCookie('ALTEREDLE_PLAYER_SESSION')) {
         loadGameServer(state.puzzle)
     }
@@ -608,7 +609,7 @@ function saveGameServer(game) {
     }
 }
 
-// SEND Game save to server to record progress
+// GET game save from server to restore progress
 function loadGameServer(puzzle) {
     try {
         return fetch(
@@ -628,13 +629,28 @@ function loadGameServer(puzzle) {
        .then((save) => {
             createCookie('ALTEREDLE_GUESSES', save.guesses)
             GAME.guesses = readCookie('ALTEREDLE_GUESSES') ? readCookie('ALTEREDLE_GUESSES').split(',') : []
-
-            // DRAW GAMEBOARD
-            drawGameBoard()
-            // CHECK IF GAME IS ALREADY WON
-            checkGameEndState()
-
+            drawPage()
         })
+    } catch {
+        console.error('Failed to save game')
+    }
+}
+
+// SEND Game save to server to record progress
+function saveShareServer(game) {
+    try {
+        fetch(
+            'save/share', 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'puzzle': game
+                })
+            }
+        )
     } catch {
         console.error('Failed to save game')
     }

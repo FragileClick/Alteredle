@@ -42,3 +42,9 @@ class Game:
         if self.outcome != 'incomplete':
             return len(self.guesses.split(','))
         return False
+
+    @property
+    def foil(self):
+        if self.outcome == 'win' and self.score <= 3:
+            return True
+        return False

@@ -1,4 +1,4 @@
-from db import PlayerModel, GamesModel
+from db import PlayerModel, GamesModel, ShareModel
 from game import Game
 from statistics import mean
 
@@ -42,7 +42,7 @@ class Player:
 
     @property
     def games(self):
-        query = GamesModel.select().where(GamesModel.player_id==self.id).dicts()
+        query = GamesModel.select().where(GamesModel.player_id==self.id).order_by(GamesModel.updated_at.desc()).dicts()
         output = []
         for game in query:
             output.append(
@@ -63,16 +63,20 @@ class Player:
 
     @property
     def games_completed(self):
-        completed_games = 0
+        completed_games = []
         for game in self.games:
             if game.outcome != 'incomplete':
-                completed_games += 1
+                completed_games.append(game)
         return completed_games
 
     @property
     def foils(self):
         foils = 0
         for game in self.games:
-            if game.outcome == 'win' and game.score <= 3:
+            if game.foil:
                 foils += 1
         return foils
+
+    @property
+    def shares(self):
+        return ShareModel.select().where(ShareModel.player_id==self.id).count()

@@ -1,15 +1,23 @@
 // ----------------------------------------------------------------------------
 // CALLBACKS TO HANDLE CARD ANIMATION
 // ----------------------------------------------------------------------------
-var result_card_specular_overlay = document.getElementById('result_card_specular_overlay')
-var result_card_container = document.getElementById('result_card_container')
-var result_card_foil_overlay = document.getElementById('result_card_foil_overlay')
+// var result_card_specular_overlay = document.getElementById('result_card_specular_overlay')
+// var result_card_container = document.getElementById('result_card_container')
+// var result_card_foil_overlay = document.getElementById('result_card_foil_overlay')
 var current_bounding_ref = null
-var result_card_animation_skip = 0
+// var result_card_animation_skip = 0
 var card_animation_type = 'none' // Values are 'none', 'normal' and 'foil'
 
 // CALLBACK CARD ANIMATION START
 function cardAnimationStart(ev) {
+
+    result_card_foil_overlay = ev.currentTarget.children[0]
+    result_card_specular_overlay = ev.currentTarget.children[2]
+
+    if (ev.target.dataset.hasOwnProperty('card_animation_type')) {
+        card_animation_type = ev.target.dataset.card_animation_type
+    }
+
     if (card_animation_type == 'normal' || card_animation_type == 'foil') {
         current_bounding_ref = ev.currentTarget.getBoundingClientRect();
         ev.currentTarget.style.setProperty("touch-action", "none");
@@ -23,6 +31,9 @@ function cardAnimationStart(ev) {
 }
 // CALLBACK CARD ANIMATION STOP
 function cardAnimationStop(ev) {
+    result_card_foil_overlay = ev.currentTarget.children[0]
+    result_card_specular_overlay = ev.currentTarget.children[2]
+
     if (card_animation_type == 'normal' || card_animation_type == 'foil') {
         ev.currentTarget.style.setProperty("touch-action", "auto");
         ev.currentTarget.style.setProperty("transform", "rotateX(0deg) rotateY(0deg)");
@@ -42,10 +53,13 @@ function cardAnimationMove(ev) {
         return
     }
 
+    result_card_foil_overlay = ev.currentTarget.children[0]
+    result_card_specular_overlay = ev.currentTarget.children[2]
+
     const x = ev.clientX - current_bounding_ref.left;
     const y = ev.clientY - current_bounding_ref.top;
-    const xPercentage = x / current_bounding_ref.width;
-    const yPercentage = y / current_bounding_ref.height;
+    const xPercentage = clamp(x / current_bounding_ref.width, -0.5,1.5);
+    const yPercentage = clamp(y / current_bounding_ref.height, -0.5, 1.5);
     const xRotation = (xPercentage - 0.5) * 20;
     const yRotation = (0.5 - yPercentage) * 20;
 
@@ -58,9 +72,13 @@ function cardAnimationMove(ev) {
     }
 }
 // Prevent page scroll while card is selected
-const element = document.getElementById('game_result_img')
-element.addEventListener('touchmove', (e) => {
-    if (card_animation_type != 'none') {
-        e.preventDefault(); 
-    }
-}, { passive: false });
+const elements = document.querySelectorAll('.game_result_img');
+elements.forEach((element) => {
+    element.addEventListener('touchmove', (e) => {
+        if (card_animation_type != 'none') {
+            e.preventDefault()
+        }
+    }, { passive: false })
+})
+
+const clamp = (val, min, max) => Math.min(Math.max(val, min), max);

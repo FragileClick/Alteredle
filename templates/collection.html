@@ -10,37 +10,52 @@
       <div class="puzzle_stats_grid">
         <div class="puzzle_stat_card">
           <p class="stat_metric">{{ player.games | length }}</p>
-          <p class="stat_title">GAMES <i class="fa-kit fa-collection"></i></p>
-          <p class="stat_description">Total games played</p>
+          <p class="stat_title" id="collection_stat_puzzles_title"></p>
+          <p class="stat_description" id="collection_stat_puzzles_subtitle"></p>
         </div>
         <div class="puzzle_stat_card">
-          <p class="stat_metric">{{ player.games_completed }}</p>
-          <p class="stat_title">SOLVED <i class="fa-kit fa-alt-wchampion2"></i></p>
-          <p class="stat_description">Total puzzles solved</p>
+          <p class="stat_metric">{{ player.games_completed | length }}</p>
+          <p class="stat_title" id="collection_stat_solved_title"></p>
+          <p class="stat_description" id="collection_stat_solved_subtitle"></p>
         </div>
         <div class="puzzle_stat_card">
           <p class="stat_metric">{{ player.avg_score }}</p>
-          <p class="stat_title">SCORE <i class="fa-kit fa-altered-x"></i></p>
-          <p class="stat_description">Average score</p>
+          <p class="stat_title" id="collection_stat_score_title"></p>
+          <p class="stat_description" id="collection_stat_score_subtitle"></p>
         </div>
         <div class="puzzle_stat_card">
           <p class="stat_metric">{{ player.foils }}</p>
-          <p class="stat_title">FOILS ✨</p>
-          <p class="stat_description">Puzzles solved in 3 or less</p>
+          <p class="stat_title" id="collection_stat_foils_title"></p>
+          <p class="stat_description" id="collection_stat_foils_subtitle"></p>
         </div>
         <div class="puzzle_stat_card">
-          <p class="stat_metric">10</p>
-          <p class="stat_title">SHARES <i class="fa-kit fa-altered-j"></i></p>
-          <p class="stat_description">Total results shared</p>
+          <p class="stat_metric">{{player.shares}}</p>
+          <p class="stat_title" id="collection_stat_shares_title"></p>
+          <p class="stat_description" id="collection_stat_shares_subtitle"></p>
         </div>
       </div>
     </div>
 
-    <div id="puzzle_archive">
+    <div id="puzzle_collection">
+      {% for card in player.games_completed %}
 
-      {% for card in player.games %}
-
-        <a href="#"><img src="/static/assets/cardback.webp"></a>
+      {% if card.foil %}
+      <div id="game_result" class="game_result">
+        <div id="result_card_container" onPointerEnter="cardAnimationStart(event)" onPointerMove="cardAnimationMove(event)" onPointerLeave="cardAnimationStop(event)" data-card_animation_type="foil">
+            <img id="result_card_foil_overlay" src="static/assets/foil.webp" draggable="false">
+            <img class="game_result_img" src="static/assets/cardback.webp" draggable="false" data-collector_number="{{ card.puzzle }}">
+            <div id="result_card_specular_overlay"></div>
+        </div>
+      </div>
+      {% else %}
+      <div id="game_result" class="game_result">
+        <div id="result_card_container" onPointerEnter="cardAnimationStart(event)" onPointerMove="cardAnimationMove(event)" onPointerLeave="cardAnimationStop(event)" data-card_animation_type="normal">
+            <img id="result_card_foil_overlay" src="static/assets/foil.webp" draggable="false" class="hidden">
+            <img class="game_result_img" src="static/assets/cardback.webp" draggable="false" data-collector_number="{{ card.puzzle }}">
+            <div id="result_card_specular_overlay"></div>
+        </div>
+      </div>
+      {% endif %}
 
       {% endfor %}
     </div>
@@ -49,10 +64,8 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript" src="static/js/fuse.js"></script>
 <script type="text/javascript" src="static/js/lib.js"></script>
 <script type="text/javascript" src="static/js/db.js"></script>
-<script type="text/javascript" src="static/js/countdown.js"></script>
 <script type="text/javascript" src="static/js/cardanimation.js"></script>
-<!-- <script type="text/javascript" src="static/js/main.js"></script> -->
+<script type="text/javascript" src="static/js/collection.js"></script>
 {% endblock %}
