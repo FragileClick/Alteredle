@@ -7,7 +7,7 @@
     "background_color": "#ECE0B5",
     "icons": [
         {
-            "src": "assets/icon.svg",
+            "src": "static/assets/icon.png",
             "type": "image/svg",
             "sizes": "512x512",
             "purpose": "maskable"
