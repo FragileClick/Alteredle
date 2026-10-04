@@ -1,3 +1,5 @@
+import os
+
 # SET APP ENVIRONMENT. Value can be: 'LOCAL', 'DEV', 'PRD'
 try:
     ENVIRONMENT = os.getenv("ENVIRONMENT")
@@ -6,7 +8,6 @@ except:
 
 # CHECK CLIENT SECRET. Don't run app if this isn't set.
 try:
-    import os
     ALTEREDLE_CLIENT_SECRET = os.getenv("ALTEREDLE_CLIENT_SECRET")
 except:
     raise Exception('You need to set ALTEREDLE_CLIENT_SECRET environment variable!')
