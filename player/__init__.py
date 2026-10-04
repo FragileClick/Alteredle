@@ -81,22 +81,22 @@ class Player:
     def games_completed(self):
         completed_games = []
         for game in self.games:
-            if game.outcome != 'incomplete':
+            if  game.outcome != 'incomplete':
                 completed_games.append(game)
         return completed_games
 
     @property
     def games_solved(self):
-        completed_games = []
+        solved_puzzles = []
         for game in self.games_completed:
             if game.outcome == 'win':
-                completed_games.append(game)
-        return completed_games
+                solved_puzzles.append(game)
+        return solved_puzzles
 
     @property
     def foils(self):
         foils = 0
-        for game in self.games:
+        for game in self.games_solved:
             if game.foil:
                 foils += 1
         return foils

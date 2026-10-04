@@ -19,7 +19,7 @@
           <p class="stat_description" id="collection_stat_puzzles_subtitle"></p>
         </div>
         <div class="puzzle_stat_card">
-          <p class="stat_metric">{{ player.games_completed | length }}</p>
+          <p class="stat_metric">{{ player.games_solved | length }}</p>
           <p class="stat_title" id="collection_stat_solved_title"></p>
           <p class="stat_description" id="collection_stat_solved_subtitle"></p>
         </div>
@@ -75,11 +75,7 @@
     </div>
 
     <a href="/logout">
-    <button class="connect_reunion_button disconnect_reunion_button">
-        <div>
-            <h1 id="collection_logout"></h1>
-        </div>
-    </button>
+      <p id="collection_logout" style="margin: 1.5em;"></p>
     </a>
 
 </div>

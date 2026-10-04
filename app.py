@@ -2,7 +2,7 @@ import uuid
 from functools import wraps
 from keycloak import KeycloakOpenID
 import requests
-import os
+import config
 
 # Initialize Flask
 from flask import Flask, render_template, request, redirect, make_response, jsonify
@@ -74,14 +74,14 @@ def auth():
         server_url="https://auth.altered.re",
         client_id="Alteredle",
         realm_name="players",
-        client_secret_key=os.getenv("ALTEREDLE_CLIENT_SECRET"),
+        client_secret_key=config.ALTEREDLE_CLIENT_SECRET,
         pool_maxsize=15
     )
     # Get Access Token With Code
     credentials = keycloak_openid.token(
         grant_type='authorization_code',
         code=request.args.get('code'),
-        redirect_uri="http://localhost/auth"
+        redirect_uri=config.KEYCLOAK_REDIRECT_URL
     )
     # Request userinfo from api
     rsp = requests.get(
@@ -125,13 +125,16 @@ def collection(player):
 @login_required
 def saveGame(player):
     save = request.get_json()
-    save_puzzle = save.get('puzzle', '')
-    save_guesses = save.get('guesses', '')
-    game = Game(
-        player=player.id,
-        puzzle=save_puzzle
-    )
-    game.save(','.join(save_guesses))
+    save_puzzle = save.get('puzzle')
+    save_guesses = save.get('guesses')
+
+    if save_puzzle and save_guesses:
+        game = Game(
+            player=player.id,
+            puzzle=save_puzzle
+        )
+        game.save(','.join(save_guesses))
+
     return "success", 200
 
 @app.route('/save/share/', methods=["POST"])

@@ -30,7 +30,9 @@ class Game:
     def outcome(self):
         guesses = self.guesses.split(',')
 
-        if self.puzzle in guesses:
+        if self.puzzle == '':
+            return 'incomplete'
+        elif self.puzzle in guesses:
             return 'win'
         elif len(guesses) >= 6:
             return 'loss'

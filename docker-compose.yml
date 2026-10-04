@@ -1,0 +1,11 @@
+alteredle_dev:
+  container_name: alteredle_dev
+  ports:
+      - 5004:5000
+  volumes:
+      - db_dev.sqlite:/python-docker/db.sqlite
+  build:
+  context: .
+  dockerfile: ./Dockerfile
+  no_cache: true
+  restart: unless-stopped
