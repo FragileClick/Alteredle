@@ -244,6 +244,7 @@ hr {
 
 .player-input input {
     width: stretch;
+    width: -moz-available;
     margin: 0 0.5em;
     max-width: 500px;
     height: 50px;
@@ -480,6 +481,7 @@ a {
 .connect_reunion_button {
     padding: 0.5em;
     width: stretch;
+    width: -moz-available;
     border-radius: 3em;
     border: 2px solid #625948;
     justify-items: center;
@@ -490,7 +492,7 @@ a {
     transition: all 0.2s ease-out;
 
     div {
-        display: flex;
+        display: inline-flex;
         align-items: center;
     }
 
