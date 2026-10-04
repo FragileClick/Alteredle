@@ -104,3 +104,10 @@ class Player:
     @property
     def shares(self):
         return ShareModel.select().where(ShareModel.player_id==self.id).count()
+
+    @property
+    def guesses(self):
+        num_guess = 0
+        for game in self.games:
+            num_guess += len(game.guesses.split(','))
+        return num_guess

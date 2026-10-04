@@ -17,6 +17,8 @@ function drawPage() {
     document.getElementById('collection_stat_foils_subtitle').innerText = copy.collection_stat_foils_subtitle
     document.getElementById('collection_stat_shares_title').innerHTML = copy.collection_stat_shares_title
     document.getElementById('collection_stat_shares_subtitle').innerText = copy.collection_stat_shares_subtitle
+    document.getElementById('collection_stat_guesses_title').innerHTML = copy.collection_stat_guesses_title
+    document.getElementById('collection_stat_guesses_subtitle').innerText = copy.collection_stat_guesses_subtitle
     document.getElementById('footer_attribution_article').innerText = copy.footer_attribution_article
     document.getElementById('collection_card_stats_title').innerText = copy.collection_card_stats_title
     document.getElementById('collection_card_stats_description').innerHTML = copy.collection_card_stats_description

@@ -70,6 +70,8 @@ const db = {
             "collection_stat_foils_subtitle": "Puzzles solved under 3",
             "collection_stat_shares_title": `SHARES <i class="fa-kit fa-altered-j"></i>`,
             "collection_stat_shares_subtitle": "Puzzles shared",
+            "collection_stat_guesses_title": `GUESSES <i class="fa-kit fa-altered-swirl"></i>`,
+            "collection_stat_guesses_subtitle": "Cards guessed",
             "collection_card_collection_title": "Collection",
             "collection_card_collection_description": `Build your collection by playing <b>Alteredle</b>! Solve the daily puzzle to add the card to your collection.`,
             "collection_logout": "Logout"
@@ -109,6 +111,8 @@ const db = {
             "collection_stat_foils_subtitle": "Casse-tête résolues en 3",
             "collection_stat_shares_title": `PARTAGÉS <i class="fa-kit fa-altered-j"></i>`,
             "collection_stat_shares_subtitle": "Casse-tête partagés",
+            "collection_stat_guesses_title": `DEVINÉES <i class="fa-kit fa-altered-swirl"></i>`,
+            "collection_stat_guesses_subtitle": "Cartes devinées",
             "collection_card_collection_title": "Collection",
             "collection_card_collection_description": `Constituez votre collection en jouant à <b>Alteredle</b>! Résolvez le casse-tête quotidien pour ajouter la carte à votre collection.`,
             "collection_logout": "Déconnexion"
