@@ -1,6 +1,6 @@
 <p align="center">
-    <a href="https://fragileclick.github.io/Alteredle">
-        <img src="assets/icon.png" width="100px">
+    <a href="https://alteredle.com">
+        <img src="static/assets/icon.png" width="100px">
     </a>
 </p>
 
@@ -8,11 +8,11 @@
 
 ## How To Play?
 
-<h3 style="font-size:3em"><a href="https://fragileclick.github.io/Alteredle">Click to play Alteredle!</a></h3>
+<h3 style="font-size:3em"><a href="https://alteredle.com">Click to play Alteredle!</a></h3>
 
-Play [Alteredle](https://fragileclick.github.io/Alteredle) in your browser or add-to-homescreen to install as a Progressive Web App (PWA).
+Play [Alteredle](https://alteredle.com) in your browser or add-to-homescreen to install as a Progressive Web App (PWA).
 
-[![](docs/install.jpg)](https://fragileclick.github.io/Alteredle)
+[![](docs/install.jpg)](https://alteredle.com)
 
 ## Card List
 
