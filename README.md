@@ -12,7 +12,7 @@
 
 Play [Alteredle](https://alteredle.com) in your browser or add-to-homescreen to install as a Progressive Web App (PWA).
 
-[![](docs/install.jpg)](https://alteredle.com)
+[![](static/assets/install.jpg)](https://alteredle.com)
 
 ## Card List
 
@@ -47,7 +47,9 @@ The card data and images come from the [AlteredCore](https://alteredcore.org) AP
 | Card Data   | [cards.alteredcore.org](https://cards.alteredcore.org) |
 | Card Images | [cdn.alteredcore.org](https://cdn.alteredcore.org/)    |
 
-![](docs/banner.jpg)
+![](static/assets/banner.jpg)
+
+![](static/assets/screenshots.jpg)
 
 ## Disclaimer
 
