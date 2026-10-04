@@ -6,6 +6,7 @@ services:
         volumes:
         - ./db.sqlite:/python-docker/db.sqlite
         environment:
+        - ENVIRONMENT=DEV
         - ALTEREDLE_CLIENT_SECRET=${ALTEREDLE_CLIENT_SECRET}
         build:
             context: .
@@ -19,6 +20,7 @@ services:
         volumes:
         - ./db.sqlite:/python-docker/db.sqlite
         environment:
+        - ENVIRONMENT=PRD
         - ALTEREDLE_CLIENT_SECRET=${ALTEREDLE_CLIENT_SECRET}
         build:
             context: .

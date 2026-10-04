@@ -1,7 +1,8 @@
 # SET APP ENVIRONMENT. Value can be: 'LOCAL', 'DEV', 'PRD'
-ENVIRONMENT = 'DEV'
-
-###############################################################
+try:
+    ENVIRONMENT = os.getenv("ENVIRONMENT")
+except:
+    raise Exception('You need to set ENVIRONMENT environment variable!')
 
 # CHECK CLIENT SECRET. Don't run app if this isn't set.
 try:
