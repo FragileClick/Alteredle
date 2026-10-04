@@ -1,12 +1,13 @@
 import uuid
 from functools import wraps
+from keycloak import KeycloakOpenID
+import requests
+import os
 
 # Initialize Flask
 from flask import Flask, render_template, request, redirect, make_response, jsonify
-from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
-bcrypt = Bcrypt(app)
 
 # Initialize Database if doesn't already exist
 init = False
@@ -60,32 +61,50 @@ def authentication_check(request):
 def puzzle():
     return render_template("puzzle.html")
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login")
 def login():
     match request.method:
         case 'GET':
             return render_template("login.html")
-        case 'POST':
-            username = request.form.get("username").lower()
-            password = request.form.get("password")
 
-            # Challenge 1. Check player exists.
-            if not Player.username_exists(username):
-                return render_template("access/login.html", error="Invalid username or password.")
-
-            # Challenge 2. Check password is correct.
-            r = Player(username=username)._record
-            if not bcrypt.check_password_hash(r.password, password):
-                return render_template("access/login.html", error="Invalid username or password.")
-
-            r.session_token = str(uuid.uuid4())
-            r.session_expiration = datetime.datetime.now()+datetime.timedelta(days=30)
-            r.save()
-
-            response = make_response(redirect('/'))
-            response.set_cookie('session', r.session_token, expires=r.session_expiration)
- 
-            return response
+@app.route("/auth")
+def auth():       
+    # Configure client
+    keycloak_openid = KeycloakOpenID(
+        server_url="https://auth.altered.re",
+        client_id="Alteredle",
+        realm_name="players",
+        client_secret_key=os.getenv("ALTEREDLE_CLIENT_SECRET"),
+        pool_maxsize=15
+    )
+    # Get Access Token With Code
+    credentials = keycloak_openid.token(
+        grant_type='authorization_code',
+        code=request.args.get('code'),
+        redirect_uri="http://localhost/auth"
+    )
+    # Request userinfo from api
+    rsp = requests.get(
+        url='https://auth.altered.re/realms/players/protocol/openid-connect/userinfo',
+        headers={
+            'Authorization': 'Bearer '+ credentials['access_token']
+        }
+    )
+    pseudo = rsp.json()['pseudo']
+    # Create or update player record
+    player = Player(
+        username=pseudo,
+        session_token=str(uuid.uuid4()),
+        session_expiration=datetime.datetime.now()+datetime.timedelta(days=30)
+    )
+    # Redirect player to collection page with session token
+    response = make_response(redirect('/collection'))
+    response.set_cookie(
+        'ALTEREDLE_PLAYER_SESSION', 
+        player._record.session_token, 
+        expires=player._record.session_expiration
+    )
+    return response
 
 @app.route("/logout")
 def logout():

@@ -18,17 +18,23 @@ function drawPage() {
     document.getElementById('collection_stat_shares_title').innerHTML = copy.collection_stat_shares_title
     document.getElementById('collection_stat_shares_subtitle').innerText = copy.collection_stat_shares_subtitle
     document.getElementById('footer_attribution_article').innerText = copy.footer_attribution_article
+    document.getElementById('collection_card_stats_title').innerText = copy.collection_card_stats_title
+    document.getElementById('collection_card_stats_description').innerHTML = copy.collection_card_stats_description
+    document.getElementById('collection_card_collection_title').innerText = copy.collection_card_collection_title
+    document.getElementById('collection_card_collection_description').innerHTML = copy.collection_card_collection_description
+    document.getElementById('collection_logout').innerText = copy.collection_logout
 
     // LOAD PUZZLE COLLECTION CARD FACES
     var puzzle_collection = document.getElementById('puzzle_collection')
     for (const card of puzzle_collection.children) {
-        var c = card.children[0].children[1]
-
-        if (GAME.language == 'fr') {
-            c.src = getCardByCollectorNumber(c.dataset.collector_number).img_fr
-        }
-        else {
-            c.src = getCardByCollectorNumber(c.dataset.collector_number).img_en
+        if (card.classList.contains('game_result')) {
+            var c = card.children[0].children[1]
+            if (GAME.language == 'fr') {
+                c.src = getCardByCollectorNumber(c.dataset.collector_number).img_fr
+            }
+            else {
+                c.src = getCardByCollectorNumber(c.dataset.collector_number).img_en
+            }
         }
     }
 }

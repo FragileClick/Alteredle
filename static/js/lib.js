@@ -2,6 +2,7 @@
 // GAME ELEMENT SELECTORS
 // ----------------------------------------------------------------------------
 // Game elements
+const game_search_input        = document.getElementById('game_search_input')
 const game_search_autocomplete = document.getElementById('game_search_autocomplete')
 const game_result              = document.getElementById('game_result')
 const game_result_img          = document.getElementsByClassName('game_result_img')[0]
@@ -246,6 +247,9 @@ function setGameEndLose() {
 async function drawGameBoard(animation=false) {
     
     var game_board = document.getElementById('game_board')
+    
+    // DISABLE SEARCH INPUT WHILE BOARD IS DRAWN
+    game_search_input.disabled = true
 
     // Empty gameboard & Write header
     game_board.innerHTML = `
@@ -428,6 +432,10 @@ async function drawGameBoard(animation=false) {
             guess_card_icon.classList.add('false')
         }
     }
+
+    // RE-ENABLE SEARCH INPUT AND RETURN FOCUS
+    game_search_input.disabled = false
+    game_search_input.focus()
 }
 
 // Function that checks if guessed card subtypes match the target card

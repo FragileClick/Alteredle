@@ -6,10 +6,15 @@
     <img class="banner-img" src="https://cdn.alteredcore.org/illustrations_hd/CORE/ALT_CORE_B_AX_11_C_FRAMELESS_T3.jpg">
     <h1 id="hero_text_title"><span id="hero_text" class="title1">Welcome, </span><span class="title2">{{ player.name }}</span></h1>
 
+    <div class="altered_card">
+        <h1 id="collection_card_stats_title" class="altered_card_title">Your Stats</h1>
+        <p id="collection_card_stats_description">Play <b>Alteredle</b> while logged in to record your games, track your progress, and build your stats!</p>
+    </div>
+
     <div id="puzzle_stats"> 
       <div class="puzzle_stats_grid">
         <div class="puzzle_stat_card">
-          <p class="stat_metric">{{ player.games | length }}</p>
+          <p class="stat_metric">{{ player.games_completed | length }}</p>
           <p class="stat_title" id="collection_stat_puzzles_title"></p>
           <p class="stat_description" id="collection_stat_puzzles_subtitle"></p>
         </div>
@@ -36,29 +41,46 @@
       </div>
     </div>
 
-    <div id="puzzle_collection">
-      {% for card in player.games_completed %}
+    <div class="altered_card">
+        <h1 id="collection_card_collection_title" class="altered_card_title"></h1>
+        <p id="collection_card_collection_description"></p>
+    </div>
 
+    <div id="puzzle_collection">
+      {% for card in player.games_solved %}
       {% if card.foil %}
-      <div id="game_result" class="game_result">
-        <div id="result_card_container" onPointerEnter="cardAnimationStart(event)" onPointerMove="cardAnimationMove(event)" onPointerLeave="cardAnimationStop(event)" data-card_animation_type="foil">
+      <div class="game_result">
+        <div id="result_card_container">
             <img id="result_card_foil_overlay" src="static/assets/foil.webp" draggable="false">
             <img class="game_result_img" src="static/assets/cardback.webp" draggable="false" data-collector_number="{{ card.puzzle }}">
             <div id="result_card_specular_overlay"></div>
         </div>
       </div>
       {% else %}
-      <div id="game_result" class="game_result">
-        <div id="result_card_container" onPointerEnter="cardAnimationStart(event)" onPointerMove="cardAnimationMove(event)" onPointerLeave="cardAnimationStop(event)" data-card_animation_type="normal">
+      <div class="game_result">
+        <div id="result_card_container">
             <img id="result_card_foil_overlay" src="static/assets/foil.webp" draggable="false" class="hidden">
             <img class="game_result_img" src="static/assets/cardback.webp" draggable="false" data-collector_number="{{ card.puzzle }}">
             <div id="result_card_specular_overlay"></div>
         </div>
       </div>
       {% endif %}
-
       {% endfor %}
+
+      {% if player.games_solved | length < 25 %}
+      {% for card in range(25-player.games_solved|length) %}
+      <img class="blankcard" src="static/assets/blankcard.webp" draggable="false">
+      {% endfor %}
+      {% endif %}
     </div>
+
+    <a href="/logout">
+    <button class="connect_reunion_button disconnect_reunion_button">
+        <div>
+            <h1 id="collection_logout"></h1>
+        </div>
+    </button>
+    </a>
 
 </div>
 {% endblock %}

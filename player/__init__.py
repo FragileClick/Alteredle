@@ -11,6 +11,11 @@ class Player:
         elif username and self.username_exists(username):
             # Look-up player by username.
             self._record = PlayerModel.get(username=username)
+            # Update player session_token + session_expiration if provided
+            if session_token and session_expiration:
+                self._record.session_token = session_token
+                self._record.session_expiration = session_expiration
+                self._record.save()
         else:
             # If they don't exist, create a new player.
             self._record, created = PlayerModel.get_or_create(
@@ -25,6 +30,15 @@ class Player:
         Check if player with this session_token exists.
         '''
         if PlayerModel.get_or_none(session_token=session_token):
+            return True
+        return False
+
+    @staticmethod
+    def username_exists(username):
+        '''
+        Check if player with this username exists.
+        '''
+        if PlayerModel.get_or_none(username=username):
             return True
         return False
 
@@ -59,13 +73,23 @@ class Player:
         for game in self.games:
             if game.score:
                 scores.append(game.score)
-        return round(mean(scores), 1)
+        if scores:
+            return round(mean(scores), 1)
+        return '-'
 
     @property
     def games_completed(self):
         completed_games = []
         for game in self.games:
             if game.outcome != 'incomplete':
+                completed_games.append(game)
+        return completed_games
+
+    @property
+    def games_solved(self):
+        completed_games = []
+        for game in self.games_completed:
+            if game.outcome == 'win':
                 completed_games.append(game)
         return completed_games
 
