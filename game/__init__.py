@@ -50,3 +50,7 @@ class Game:
         if self.outcome == 'win' and self.score <= 3:
             return True
         return False
+
+    @property
+    def date(self):
+        return self._record.updated_at.isoformat().split('T')[0]

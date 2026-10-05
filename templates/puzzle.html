@@ -8,10 +8,20 @@
     <div class="player-input">
         <input id="game_search_input" type="text" oninput="player_search(self)">
         <ul id="game_search_autocomplete" class="player-input-autocomplete hidden"></ul>
+
+        {% if historical %}
         <div id="countdown" class="hidden">
-        <p id="countdown_title"></p>
-        <h1 id="countdown_timer">0h 0m 0s</h1>
+            <p id="countdown_title" class="hidden"></p>
+            <p>Puzzle solved on:</p>
+            <h1>{{ game.date }}</h1>
         </div>
+        {% else %}
+        <div id="countdown" class="hidden">
+            <p id="countdown_title"></p>
+            <h1 id="countdown_timer">0h 0m 0s</h1>
+        </div>
+
+        {% endif %}
     </div>
     <div id="game_board" class="game-board"></div>
 
@@ -21,8 +31,8 @@
         <h1 id="result_title" class="title1"></h1>
         <p id="result_subtitle"></p>
         <div id="result_card_container" onPointerEnter="cardAnimationStart(event)" onPointerMove="cardAnimationMove(event)" onPointerLeave="cardAnimationStop(event)">
-            <img id="result_card_foil_overlay" src="static/assets/foil.webp" draggable="false" class="hidden">
-            <img class="game_result_img" src="static/assets/cardback.webp" draggable="false">
+            <img id="result_card_foil_overlay" src="/static/assets/foil.webp" draggable="false" class="hidden">
+            <img class="game_result_img" src="/static/assets/cardback.webp" draggable="false">
             <div id="result_card_specular_overlay"></div>
         </div>
     </div>
@@ -31,10 +41,14 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript" src="static/js/fuse.js"></script>
-<script type="text/javascript" src="static/js/lib.js"></script>
-<script type="text/javascript" src="static/js/db.js"></script>
-<script type="text/javascript" src="static/js/countdown.js"></script>
-<script type="text/javascript" src="static/js/cardanimation.js"></script>
-<script type="text/javascript" src="static/js/main.js"></script>
+<script type="text/javascript" src="/static/js/fuse.js"></script>
+<script type="text/javascript" src="/static/js/lib.js"></script>
+<script type="text/javascript" src="/static/js/db.js"></script>
+
+{% if not historical %}
+<script type="text/javascript" src="/static/js/countdown.js"></script>
+{% endif%}
+
+<script type="text/javascript" src="/static/js/cardanimation.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
 {% endblock %}

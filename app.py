@@ -59,13 +59,28 @@ def authentication_check(request):
 
 @app.route("/")
 def puzzle():
-    return render_template("puzzle.html")
+    # Clear ALTEREDLE_PUZZLE
+    response = make_response(render_template("puzzle.html"))
+    response.set_cookie('ALTEREDLE_PUZZLE', '')
+    return response
+
+@app.route("/puzzle/<puzzle_id>")
+@login_required
+def historical_puzzle(player, puzzle_id):
+    game = Game(
+        player=player.id,
+        puzzle=puzzle_id
+    )
+    if game.outcome == 'win':
+        response = make_response(render_template("puzzle.html", game=game, historical=True))
+        response.set_cookie('ALTEREDLE_PUZZLE', game.puzzle)
+        return response
+
+    return redirect('/')
 
 @app.route("/login")
 def login():
-    match request.method:
-        case 'GET':
-            return render_template("login.html")
+    return render_template("login.html")
 
 @app.route("/auth")
 def auth():       

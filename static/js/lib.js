@@ -543,9 +543,6 @@ function eraseCookie(name) {
 }
 // SAVE Game
 function saveGame(game) {
-    if (typeof TARGET_CARD !== 'undefined') {
-        createCookie('ALTEREDLE_PUZZLE', TARGET_CARD.collector_number)
-    }
     createCookie('ALTEREDLE_LANGAUGE', game.language)
     createCookie('ALTEREDLE_GUESSES', String(game.guesses))
     createCookie('ALTEREDLE_LAST_UPDATE', new Date().toISOString())
@@ -567,18 +564,18 @@ function loadGame() {
         createCookie('ALTEREDLE_LAST_UPDATE', new Date().toISOString())
     }
 
+    // If player is logged in 
+    // attempt to load the save game for target card
+    if (readCookie('ALTEREDLE_PLAYER_SESSION')) {
+        loadGameServer(TARGET_CARD.collector_number)
+    }
+
     // Load game state from browser cookie save
     var state = {
-        'puzzle': readCookie('ALTEREDLE_PUZZLE'),
         'language': readCookie('ALTEREDLE_LANGAUGE'),
         'guesses': readCookie('ALTEREDLE_GUESSES') ? readCookie('ALTEREDLE_GUESSES').split(',') : [],
         'lastUpdate': new Date(readCookie('ALTEREDLE_LAST_UPDATE')),
         'guessTotal': 6
-    }
-
-    // If player is logged in, load save game
-    if (readCookie('ALTEREDLE_PLAYER_SESSION')) {
-        loadGameServer(state.puzzle)
     }
 
     // If it's a new day, reset puzzle
@@ -598,7 +595,7 @@ function loadGame() {
 function saveGameServer(game) {
     try {
         fetch(
-            'save/game', 
+            '/save/game', 
             {
                 method: 'POST',
                 headers: {
@@ -606,8 +603,6 @@ function saveGameServer(game) {
                 },
                 body: JSON.stringify({
                     'puzzle': game.puzzle,
-                    'result': game.result,
-                    'score': game.score,
                     'guesses': game.guesses
                 })
             }
@@ -621,7 +616,7 @@ function saveGameServer(game) {
 function loadGameServer(puzzle) {
     try {
         return fetch(
-            'load/game', 
+            '/load/game', 
             {
                 method: 'POST',
                 headers: {
@@ -648,7 +643,7 @@ function loadGameServer(puzzle) {
 function saveShareServer(game) {
     try {
         fetch(
-            'save/share', 
+            '/save/share', 
             {
                 method: 'POST',
                 headers: {

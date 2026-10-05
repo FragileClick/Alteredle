@@ -2,27 +2,25 @@
 // MAIN FILE THAT RUNS THE GAME
 //-----------------------------------------------------------------------------
 
-// LOAD GAME SAVE
-var GAME = loadGame()
-
-// IF GAME DOESN'T HAVE A TARGET_CARD, PICK FROM THE CARDLIST
 // DITERMINE TARGET CARD FROM CURRENT DATE
 const dt_origin = new Date('2026-08-14T00:00:00') // Game Launch Date
 const dt_today  = new Date()
 const dt_offset = Math.floor((dt_today - dt_origin) / (24 * 60 * 60 * 1000))
 
-if (!GAME.puzzle) {
-    // If offset exceeds number of cards, reset count
-    while (dt_offset > db.cards.length) {
-        dt_offset -= db.cards.length
-    }
-    TARGET_CARD = db.cards[dt_offset]
-    GAME.puzzle = TARGET_CARD.collector_number
-    saveGame(GAME)
-} else {
-    // IF GAME ALREADY HAS A TARGET_CARD, USE THAT
-    TARGET_CARD = getCardByCollectorNumber(GAME.puzzle)
+// If offset exceeds number of cards, reset count
+while (dt_offset > db.cards.length) {
+    dt_offset -= db.cards.length
 }
+var TARGET_CARD = db.cards[dt_offset]
+
+// IF ALTEREDLE_PUZZLE IS SET, USE THAT INSTEAD OF DAILY TARGET_CARD
+if (readCookie('ALTEREDLE_PUZZLE')) {
+    TARGET_CARD = getCardByCollectorNumber(readCookie('ALTEREDLE_PUZZLE'))
+}
+
+// LOAD GAME SAVE
+var GAME = loadGame()
+GAME.puzzle = TARGET_CARD.collector_number
 
 // INITIALIZE DATABASE SEARCH INDEX
 const fuse_en = new Fuse(db.cards, {keys: ['name_en']})
@@ -60,7 +58,7 @@ shareButton.addEventListener("click", async () => {
 
     // If player is logged in, record share
     if (readCookie('ALTEREDLE_PLAYER_SESSION')) {
-        saveShareServer(GAME.puzzle)
+        saveShareServer(TARGET_CARD.collector_number)
     }
 });
 

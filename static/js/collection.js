@@ -1,3 +1,4 @@
+var TARGET_CARD = ''
 var GAME = loadGame()
 
 function drawPage() {
