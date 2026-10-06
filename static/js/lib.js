@@ -26,6 +26,7 @@ function setLanguage() {
     document.getElementById('footer_attribution_article').innerText = copy.footer_attribution_article
     document.getElementById('player_hint').innerHTML = copy.player_hint
     document.getElementById('share_button_text').innerHTML = copy.share_button
+    document.getElementById('puzzle_solved_on_text').innerText = copy.puzzle_solved_on_text
 
     // UPDATE RESULT TEXT DEPENDING ON LANGUAGE AND WIN/LOSE
     if (GAME.language == 'fr') {

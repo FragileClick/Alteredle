@@ -12,12 +12,13 @@
         {% if historical %}
         <div id="countdown" class="hidden">
             <p id="countdown_title" class="hidden"></p>
-            <p>Puzzle solved on:</p>
+            <p id="puzzle_solved_on_text"></p>
             <h1>{{ game.date }}</h1>
         </div>
         {% else %}
         <div id="countdown" class="hidden">
             <p id="countdown_title"></p>
+            <p id="puzzle_solved_on_text" class="hidden"></p>
             <h1 id="countdown_timer">0h 0m 0s</h1>
         </div>
 
