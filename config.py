@@ -2,7 +2,7 @@ import os
 
 # SET APP ENVIRONMENT. Value can be: 'LOCAL', 'DEV', 'PRD'
 try:
-    ENVIRONMENT = os.getenv("ENVIRONMENT")
+    ALTEREDLE_ENVIRONMENT = os.getenv("ALTEREDLE_ENVIRONMENT")
 except:
     raise Exception('You need to set ENVIRONMENT environment variable!')
 
@@ -13,7 +13,7 @@ except:
     raise Exception('You need to set ALTEREDLE_CLIENT_SECRET environment variable!')
 
 # SET REDIRECT URL. Value changes by environment
-match ENVIRONMENT:
+match ALTEREDLE_ENVIRONMENT:
     case 'LOCAL':
         KEYCLOAK_REDIRECT_URL = 'http://localhost/auth'
     case 'DEV':
