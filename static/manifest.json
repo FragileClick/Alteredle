@@ -1,16 +1,24 @@
 {
+    "id": "/",
     "name": "Alteredle",
     "short_name": "Alteredle",
-    "start_url": "https://alteredle.com",
+    "start_url": "/",
+    "scope": "/",
     "display": "standalone",
     "theme_color": "#B5B9C4",
     "background_color": "#ECE0B5",
     "icons": [
         {
-            "src": "static/assets/icon.png",
+            "src": "/static/assets/icon.png",
             "type": "image/svg",
             "sizes": "512x512",
             "purpose": "maskable"
+        },
+        {
+            "src": "/static/assets/icon.png",
+            "type": "image/svg",
+            "sizes": "512x512",
+            "purpose": "any"
         }
     ]
 }
