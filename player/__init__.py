@@ -56,7 +56,7 @@ class Player:
 
     @property
     def games(self):
-        query = GamesModel.select().where(GamesModel.player_id==self.id).order_by(GamesModel.updated_at.desc()).dicts()
+        query = GamesModel.select().where(GamesModel.player_id==self.id).order_by(GamesModel.completed_at.desc()).dicts()
         output = []
         for game in query:
             output.append(
@@ -109,5 +109,6 @@ class Player:
     def guesses(self):
         num_guess = 0
         for game in self.games:
-            num_guess += len(game.guesses.split(','))
+            if game.puzzle:
+                num_guess += len(game.guesses.split(','))
         return num_guess

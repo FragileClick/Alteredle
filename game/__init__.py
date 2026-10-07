@@ -9,9 +9,11 @@ class Game:
             puzzle = puzzle
         )
 
-    def save(self, guesses):
+    def save(self, guesses, completed=False):
         self._record.guesses = guesses
         self._record.updated_at = datetime.datetime.now()
+        if completed:
+            self._record.completed_at = datetime.datetime.now()
         self._record.save()
 
     @property
@@ -53,4 +55,5 @@ class Game:
 
     @property
     def date(self):
-        return self._record.updated_at.isoformat().split('T')[0]
+        if self._record.completed_at:
+            return self._record.completed_at.isoformat().split('T')[0]

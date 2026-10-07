@@ -181,6 +181,8 @@ function player_guess(card) {
                     'board': getShareText()
                 }
             )
+            // Save game
+            saveGameServer(GAME, completed=true)
         }
     }, 4500);
 }
@@ -593,7 +595,7 @@ function loadGame() {
 }
 
 // SEND Game save to server to record progress
-function saveGameServer(game) {
+function saveGameServer(game, completed=false) {
     try {
         fetch(
             '/save/game', 
@@ -604,7 +606,8 @@ function saveGameServer(game) {
                 },
                 body: JSON.stringify({
                     'puzzle': game.puzzle,
-                    'guesses': game.guesses
+                    'guesses': game.guesses,
+                    "completed": completed
                 })
             }
         )

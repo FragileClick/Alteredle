@@ -30,4 +30,5 @@ class GamesModel(Base):
     player = ForeignKeyField(PlayerModel)
     puzzle = CharField()
     guesses = CharField(default='')
+    completed_at = DateTimeField(null=True)
     updated_at = DateTimeField(default=datetime.datetime.now())

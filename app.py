@@ -142,13 +142,14 @@ def saveGame(player):
     save = request.get_json()
     save_puzzle = save.get('puzzle')
     save_guesses = save.get('guesses')
+    save_completed = save.get('completed')
 
-    if save_puzzle and save_guesses:
+    if save_puzzle and save_guesses and not save_puzzle=='':
         game = Game(
             player=player.id,
             puzzle=save_puzzle
         )
-        game.save(','.join(save_guesses))
+        game.save(','.join(save_guesses), save_completed)
 
     return "success", 200
 
@@ -168,12 +169,17 @@ def saveShare(player):
 @login_required
 def loadGame(player):
     load = request.get_json()
-    load_puzzle = load.get('puzzle', '')
-    game = Game(
-        player=player.id,
-        puzzle=load_puzzle
-    )
-    return jsonify({'guesses': game.guesses})
+    load_puzzle = load.get('puzzle')
+
+    if load_puzzle and load_puzzle != '':
+        game = Game(
+            player=player.id,
+            puzzle=load_puzzle
+        )
+        return jsonify({'guesses': game.guesses})
+    
+    return jsonify({'guesses': ''})
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5001)
