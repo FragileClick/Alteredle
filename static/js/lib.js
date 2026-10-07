@@ -171,7 +171,11 @@ function player_guess(card) {
         var isGameOver = checkGameEndState()
         if ( isGameOver ) {
             // Animated scroll to bottom revealing result
-            window.scrollTo({top: document.body.scrollHeight, left: 0,behavior: 'smooth'}) 
+            window.scrollTo({top: document.body.scrollHeight, left: 0,behavior: 'smooth'})
+
+            // Save game
+            saveGameServer(GAME, completed=true)
+
             // Report
             umami.track(
                 'Completed Game',
@@ -181,8 +185,6 @@ function player_guess(card) {
                     'board': getShareText()
                 }
             )
-            // Save game
-            saveGameServer(GAME, completed=true)
         }
     }, 4500);
 }
