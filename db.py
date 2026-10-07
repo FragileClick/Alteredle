@@ -32,3 +32,8 @@ class GamesModel(Base):
     guesses = CharField(default='')
     completed_at = DateTimeField(null=True)
     updated_at = DateTimeField(default=datetime.datetime.now())
+
+class PuzzleModel(Base):
+    class Meta:
+        db_table = 'puzzles'
+    puzzle = CharField()

@@ -15,7 +15,8 @@ from db import *
 for model in [
         PlayerModel,
         ShareModel,
-        GamesModel
+        GamesModel,
+        PuzzleModel
     ]:
     if not db.table_exists(model):
         model.create_table()
