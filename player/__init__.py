@@ -109,6 +109,6 @@ class Player:
     def guesses(self):
         num_guess = 0
         for game in self.games:
-            if game.puzzle:
+            if game.guesses != '':
                 num_guess += len(game.guesses.split(','))
         return num_guess

@@ -173,9 +173,6 @@ function player_guess(card) {
             // Animated scroll to bottom revealing result
             window.scrollTo({top: document.body.scrollHeight, left: 0,behavior: 'smooth'})
 
-            // Save game
-            saveGameServer(GAME, completed=true)
-
             // Report
             umami.track(
                 'Completed Game',
@@ -597,7 +594,7 @@ function loadGame() {
 }
 
 // SEND Game save to server to record progress
-function saveGameServer(game, completed=false) {
+function saveGameServer(game) {
     try {
         fetch(
             '/save/game', 
@@ -608,8 +605,7 @@ function saveGameServer(game, completed=false) {
                 },
                 body: JSON.stringify({
                     'puzzle': game.puzzle,
-                    'guesses': game.guesses,
-                    "completed": completed
+                    'guesses': game.guesses
                 })
             }
         )

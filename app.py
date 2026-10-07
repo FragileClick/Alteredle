@@ -143,13 +143,17 @@ def saveGame(player):
     save = request.get_json()
     save_puzzle = save.get('puzzle')
     save_guesses = save.get('guesses')
-    save_completed = save.get('completed')
 
     if save_puzzle and save_guesses and not save_puzzle=='':
         game = Game(
             player=player.id,
             puzzle=save_puzzle
         )
+        # If game is complete and hasn't already been completed, complete it.
+        save_completed = False
+        if save_puzzle in save_guesses and game._record.completed_at == None:
+            save_completed = True
+
         game.save(','.join(save_guesses), save_completed)
 
     return "success", 200
