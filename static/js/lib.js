@@ -435,10 +435,8 @@ async function drawGameBoard(animation=false) {
         }
     }
 
-    // RE-ENABLE SEARCH INPUT AND RETURN FOCUS
-    game_search_input.disabled = false
-    game_search_input.focus()
-}
+    // RE-ENABLE SEARCH INPUT
+    game_search_input.disabled = false}
 
 // Function that checks if guessed card subtypes match the target card
 function checkSubtypes(card) {
