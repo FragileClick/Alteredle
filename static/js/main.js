@@ -16,6 +16,8 @@ var TARGET_CARD = db.cards[dt_offset]
 // IF ALTEREDLE_PUZZLE IS SET, USE THAT INSTEAD OF DAILY TARGET_CARD
 if (readCookie('ALTEREDLE_PUZZLE')) {
     TARGET_CARD = getCardByCollectorNumber(readCookie('ALTEREDLE_PUZZLE'))
+} else {
+    createCookie('ALTEREDLE_GUESSES', '') // Clear cookie before load if not loading puzzle
 }
 
 // LOAD GAME SAVE

@@ -72,7 +72,7 @@ def historical_puzzle(player, puzzle_id):
         player=player.id,
         puzzle=puzzle_id
     )
-    if game.outcome == 'win':
+    if game.outcome != 'incomplete':
         response = make_response(render_template("puzzle.html", game=game, historical=True))
         response.set_cookie('ALTEREDLE_PUZZLE', game.puzzle)
         return response
