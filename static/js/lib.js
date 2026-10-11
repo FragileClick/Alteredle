@@ -2,9 +2,10 @@
 // GAME ELEMENT SELECTORS
 // ----------------------------------------------------------------------------
 // Game elements
+const game_search_input        = document.getElementById('game_search_input')
 const game_search_autocomplete = document.getElementById('game_search_autocomplete')
 const game_result              = document.getElementById('game_result')
-const game_result_img          = document.getElementById('game_result_img')
+const game_result_img          = document.getElementsByClassName('game_result_img')[0]
 const countdown                = document.getElementById('countdown')
 
 // ----------------------------------------------------------------------------
@@ -25,11 +26,11 @@ function setLanguage() {
     document.getElementById('footer_attribution_article').innerText = copy.footer_attribution_article
     document.getElementById('player_hint').innerHTML = copy.player_hint
     document.getElementById('share_button_text').innerHTML = copy.share_button
+    document.getElementById('puzzle_solved_on_text').innerText = copy.puzzle_solved_on_text
 
     // UPDATE RESULT TEXT DEPENDING ON LANGUAGE AND WIN/LOSE
-    const game_result_img = document.getElementById('game_result_img')
     if (GAME.language == 'fr') {
-        if ( GAME.guesses.includes(TARGET_CARD.id) ) {
+        if ( GAME.guesses.includes(TARGET_CARD.collector_number) ) {
             // IF GAME IS WON DRAW SUCCESS
             document.getElementById('result_title').innerText = copy.result_title_success
             document.getElementById('result_subtitle').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_fr).replace('ATTEMPTS', GAME.guesses.length)
@@ -43,7 +44,7 @@ function setLanguage() {
         game_result_img.src = TARGET_CARD.img_fr
     }
     else {
-        if ( GAME.guesses.includes(TARGET_CARD.id) ) {
+        if ( GAME.guesses.includes(TARGET_CARD.collector_number) ) {
             // IF GAME IS WON DRAW SUCCESS
             document.getElementById('result_title').innerText = copy.result_title_success
             document.getElementById('result_subtitle').innerHTML = copy.result_subtitle_success.replace('CARD_NAME', TARGET_CARD.name_en).replace('ATTEMPTS', GAME.guesses.length)
@@ -56,17 +57,6 @@ function setLanguage() {
         // UPDATE CARD LANGUAGE
         game_result_img.src = TARGET_CARD.img_en
     }
-
-    // Update language toggle icon
-    const language_toggle_fr = document.getElementById('language_toggle_fr')
-    const language_toggle_en = document.getElementById('language_toggle_en')
-    if (GAME.language=='fr') {
-        language_toggle_en.classList.add('translucent')
-        language_toggle_fr.classList.remove('translucent')
-    } else {
-        language_toggle_en.classList.remove('translucent')
-        language_toggle_fr.classList.add('translucent')
-    }
 }
 // Function toggles language between english and french
 function toggleLanguage() {
@@ -78,11 +68,22 @@ function toggleLanguage() {
     // Save new language
     saveGame(GAME)
     // Redraw game in new langauge
-    drawGameBoard()
-    // Clear search and close autocomplete
-    game_search_input.value = ""
-    game_search_autocomplete.classList.add('hidden')
+    drawPage()
 }
+// Update state of the langauge toggle button
+function updateLangaugeToggle() {
+    // Update language toggle icon
+    const language_toggle_fr = document.getElementById('language_toggle_fr')
+    const language_toggle_en = document.getElementById('language_toggle_en')
+    if (GAME.language=='fr') {
+        language_toggle_en.classList.add('translucent')
+        language_toggle_fr.classList.remove('translucent')
+    } else {
+        language_toggle_en.classList.remove('translucent')
+        language_toggle_fr.classList.add('translucent')
+    }
+}
+
 // Function handles player search + input autocomplete
 function player_search() {
     // Get player search query string
@@ -159,7 +160,7 @@ function player_guess(card) {
     game_search_autocomplete.innerHTML = ''
 
     // Add game to save
-    GAME.guesses.push(card.id)
+    GAME.guesses.push(card.collector_number)
     saveGame(GAME)
 
     // Draw change to gameboard
@@ -170,7 +171,8 @@ function player_guess(card) {
         var isGameOver = checkGameEndState()
         if ( isGameOver ) {
             // Animated scroll to bottom revealing result
-            window.scrollTo({top: document.body.scrollHeight, left: 0,behavior: 'smooth'}) 
+            window.scrollTo({top: document.body.scrollHeight, left: 0,behavior: 'smooth'})
+
             // Report
             umami.track(
                 'Completed Game',
@@ -187,7 +189,7 @@ function player_guess(card) {
 // Function checks if the game is done. Either win or loss.
 function checkGameEndState() {
     // If player guessed the correct card, the game is over. Win.
-    if (GAME.guesses.includes(TARGET_CARD.id)) {
+    if (GAME.guesses.includes(TARGET_CARD.collector_number)) {
         // Redraw text
         setLanguage()
         // Show result
@@ -247,6 +249,9 @@ function setGameEndLose() {
 async function drawGameBoard(animation=false) {
     
     var game_board = document.getElementById('game_board')
+    
+    // DISABLE SEARCH INPUT WHILE BOARD IS DRAWN
+    game_search_input.disabled = true
 
     // Empty gameboard & Write header
     game_board.innerHTML = `
@@ -306,11 +311,11 @@ async function drawGameBoard(animation=false) {
         var guess_cost_reserve = document.getElementById('game_guess_cost_reserve_'+row)
 
         // Pull card information
-        var card = getCardById(GAME.guesses[row-1])
+        var card = getCardByCollectorNumber(GAME.guesses[row-1])
 
         // Ditermine animation time
         if (row == GAME.guesses.length && animation) {
-            var speed = 250
+            var speed = 150
         } else {
             var speed = 0
         }
@@ -429,7 +434,9 @@ async function drawGameBoard(animation=false) {
             guess_card_icon.classList.add('false')
         }
     }
-}
+
+    // RE-ENABLE SEARCH INPUT
+    game_search_input.disabled = false}
 
 // Function that checks if guessed card subtypes match the target card
 function checkSubtypes(card) {
@@ -438,12 +445,12 @@ function checkSubtypes(card) {
     //   "partial"  Guessed card has SOME of the subtypes as target card
     //   "false"    Guessed card has NONE of the subtypes as target card
     var card_subtypes = card.subtype_en.trim().split(' ')
-    var target_card_subtypes = TARGET_CARD.subtype_en.trim().split(' ')
+    var puzzle_subtypes = TARGET_CARD.subtype_en.trim().split(' ')
 
     if (card.subtype_en==TARGET_CARD.subtype_en) {
         return 'true'
     }
-    else if ( card_subtypes.some(element => target_card_subtypes.includes(element)) ) {
+    else if ( card_subtypes.some(element => puzzle_subtypes.includes(element)) ) {
         return 'partial'
     }
     else {
@@ -536,9 +543,10 @@ function eraseCookie(name) {
 }
 // SAVE Game
 function saveGame(game) {
-    createCookie('ALTEREDLE_LANGAUGE', game.language),
-    createCookie('ALTEREDLE_GUESSES', String(game.guesses)),
+    createCookie('ALTEREDLE_LANGAUGE', game.language)
+    createCookie('ALTEREDLE_GUESSES', String(game.guesses))
     createCookie('ALTEREDLE_LAST_UPDATE', new Date().toISOString())
+    saveGameServer(game)
 }
 // LOAD Game
 function loadGame() {
@@ -555,6 +563,13 @@ function loadGame() {
         createCookie('ALTEREDLE_GUESSES', ''),
         createCookie('ALTEREDLE_LAST_UPDATE', new Date().toISOString())
     }
+
+    // If player is logged in 
+    // attempt to load the save game for target card
+    if (readCookie('ALTEREDLE_PLAYER_SESSION')) {
+        loadGameServer(TARGET_CARD.collector_number)
+    }
+
     // Load game state from browser cookie save
     var state = {
         'language': readCookie('ALTEREDLE_LANGAUGE'),
@@ -569,8 +584,77 @@ function loadGame() {
 
     if (lastUpdateDate != todayDate) {
         state.guesses = []
+        state.puzzle = ''
         saveGame(state)
     }
     return state
 
+}
+
+// SEND Game save to server to record progress
+function saveGameServer(game) {
+    try {
+        fetch(
+            '/save/game', 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'puzzle': game.puzzle,
+                    'guesses': game.guesses
+                })
+            }
+        )
+    } catch {
+        console.error('Failed to save game')
+    }
+}
+
+// GET game save from server to restore progress
+function loadGameServer(puzzle) {
+    try {
+        return fetch(
+            '/load/game', 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'puzzle': puzzle
+                })
+            }
+        ).then((response) => {
+            return response.json()
+        })
+       .then((save) => {
+            createCookie('ALTEREDLE_GUESSES', save.guesses)
+            GAME.guesses = readCookie('ALTEREDLE_GUESSES') ? readCookie('ALTEREDLE_GUESSES').split(',') : []
+            drawPage()
+        })
+    } catch {
+        console.error('Failed to save game')
+    }
+}
+
+// SEND Game save to server to record progress
+function saveShareServer(game) {
+    try {
+        fetch(
+            '/save/share', 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'puzzle': game
+                })
+            }
+        )
+    } catch {
+        console.error('Failed to save game')
+    }
 }

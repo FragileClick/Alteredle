@@ -1,0 +1,102 @@
+{% set title = "Alteredle" %}
+{% extends "base.html" %}
+
+{% block content %}
+<div id="game">
+    <img class="banner-img" src="https://cdn.alteredcore.org/illustrations_hd/CORE/ALT_CORE_B_AX_11_C_FRAMELESS_T3.jpg">
+    <h1 id="hero_text_title"><span id="hero_text" class="title1">Welcome, </span><span class="title2">{{ player.name }}</span></h1>
+
+    <div class="altered_card">
+        <h1 id="collection_card_stats_title" class="altered_card_title"></h1>
+        <p id="collection_card_stats_description"></p>
+    </div>
+
+    <div id="puzzle_stats"> 
+      <div class="puzzle_stats_grid">
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">{{ player.games_completed | length }}</p>
+          <p class="stat_title" id="collection_stat_puzzles_title"></p>
+          <p class="stat_description" id="collection_stat_puzzles_subtitle"></p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">{{ player.games_solved | length }}</p>
+          <p class="stat_title" id="collection_stat_solved_title"></p>
+          <p class="stat_description" id="collection_stat_solved_subtitle"></p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">{{ player.avg_score }}</p>
+          <p class="stat_title" id="collection_stat_score_title"></p>
+          <p class="stat_description" id="collection_stat_score_subtitle"></p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">{{ player.foils }}</p>
+          <p class="stat_title" id="collection_stat_foils_title"></p>
+          <p class="stat_description" id="collection_stat_foils_subtitle"></p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">{{player.shares}}</p>
+          <p class="stat_title" id="collection_stat_shares_title"></p>
+          <p class="stat_description" id="collection_stat_shares_subtitle"></p>
+        </div>
+        <div class="puzzle_stat_card">
+          <p class="stat_metric">{{player.guesses}}</p>
+          <p class="stat_title" id="collection_stat_guesses_title">GUESSES</p>
+          <p class="stat_description" id="collection_stat_guesses_subtitle"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="altered_card">
+        <h1 id="collection_card_collection_title" class="altered_card_title"></h1>
+        <p id="collection_card_collection_description"></p>
+    </div>
+
+    <div id="puzzle_collection">
+      {% for card in player.games_completed %}
+      {% if card.foil %}
+      <a class="game_result" href="/puzzle/{{ card.puzzle }}">
+        <div id="result_card_container">
+            <img id="result_card_foil_overlay" src="static/assets/foil.webp" draggable="false">
+            <img class="game_result_img" src="static/assets/cardback.webp" draggable="false" data-collector_number="{{ card.puzzle }}">
+            <div id="result_card_specular_overlay"></div>
+        </div>
+      </a>
+      {% elif card.outcome == 'loss' %}
+      <a class="game_result" href="/puzzle/{{ card.puzzle }}">
+        <div id="result_card_container">
+            <img id="result_card_foil_overlay" src="static/assets/foil.webp" draggable="false" class="hidden">
+            <img class="game_result_img" style="filter: grayscale(1);" src="static/assets/cardback.webp" draggable="false" data-collector_number="{{ card.puzzle }}">
+            <div id="result_card_specular_overlay"></div>
+        </div>
+      </a>      
+      {% else %}
+      <a class="game_result" href="/puzzle/{{ card.puzzle }}">
+        <div id="result_card_container">
+            <img id="result_card_foil_overlay" src="static/assets/foil.webp" draggable="false" class="hidden">
+            <img class="game_result_img" src="static/assets/cardback.webp" draggable="false" data-collector_number="{{ card.puzzle }}">
+            <div id="result_card_specular_overlay"></div>
+        </div>
+      </a>
+      {% endif %}
+      {% endfor %}
+
+      {% if player.games_completed | length < 25 %}
+      {% for card in range(25-player.games_completed|length) %}
+      <img class="blankcard" src="static/assets/blankcard.webp" draggable="false">
+      {% endfor %}
+      {% endif %}
+    </div>
+
+    <a href="/logout">
+      <p id="collection_logout" style="margin: 1.5em;"></p>
+    </a>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="static/js/lib.js"></script>
+<script type="text/javascript" src="static/js/db.js"></script>
+<script type="text/javascript" src="static/js/cardanimation.js"></script>
+<script type="text/javascript" src="static/js/collection.js"></script>
+{% endblock %}
