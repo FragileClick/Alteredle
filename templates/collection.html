@@ -52,7 +52,7 @@
     </div>
 
     <div id="puzzle_collection">
-      {% for card in player.games_solved %}
+      {% for card in player.games_completed %}
       {% if card.foil %}
       <a class="game_result" href="/puzzle/{{ card.puzzle }}">
         <div id="result_card_container">
@@ -61,6 +61,14 @@
             <div id="result_card_specular_overlay"></div>
         </div>
       </a>
+      {% elif card.outcome == 'loss' %}
+      <a class="game_result" href="/puzzle/{{ card.puzzle }}">
+        <div id="result_card_container">
+            <img id="result_card_foil_overlay" src="static/assets/foil.webp" draggable="false" class="hidden">
+            <img class="game_result_img" style="filter: grayscale(1);" src="static/assets/cardback.webp" draggable="false" data-collector_number="{{ card.puzzle }}">
+            <div id="result_card_specular_overlay"></div>
+        </div>
+      </a>      
       {% else %}
       <a class="game_result" href="/puzzle/{{ card.puzzle }}">
         <div id="result_card_container">
@@ -72,8 +80,8 @@
       {% endif %}
       {% endfor %}
 
-      {% if player.games_solved | length < 25 %}
-      {% for card in range(25-player.games_solved|length) %}
+      {% if player.games_completed | length < 25 %}
+      {% for card in range(25-player.games_completed|length) %}
       <img class="blankcard" src="static/assets/blankcard.webp" draggable="false">
       {% endfor %}
       {% endif %}

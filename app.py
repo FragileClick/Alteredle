@@ -151,7 +151,7 @@ def saveGame(player):
         )
         # If game is complete and hasn't already been completed, complete it.
         save_completed = False
-        if save_puzzle in save_guesses and game._record.completed_at == None:
+        if game._record.completed_at == None and (save_puzzle in save_guesses or len(save_guesses) >= 6):
             save_completed = True
 
         game.save(','.join(save_guesses), save_completed)
