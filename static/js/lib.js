@@ -616,7 +616,7 @@ function saveGameServer(game) {
 function loadGameServer(puzzle) {
     try {
         return fetch(
-            'https://dev.alteredle.com/load/game',
+            '/load/game',
             {
                 method: 'POST',
                 headers: {
