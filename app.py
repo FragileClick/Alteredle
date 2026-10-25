@@ -9,6 +9,10 @@ from flask import Flask, render_template, request, redirect, make_response, json
 app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
+app.config.update(
+    SESSION_COOKIE_SECURE='True'
+)
+
 # Initialize Database if doesn't already exist
 init = False
 from db import *
