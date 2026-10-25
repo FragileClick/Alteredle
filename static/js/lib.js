@@ -598,6 +598,7 @@ function saveGameServer(game) {
             '/save/game', 
             {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -619,6 +620,7 @@ function loadGameServer(puzzle) {
             '/load/game',
             {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -646,6 +648,7 @@ function saveShareServer(game) {
             '/save/share',
             {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
