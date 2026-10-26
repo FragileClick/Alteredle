@@ -598,6 +598,7 @@ function saveGameServer(game) {
             '/save/game', 
             {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -616,9 +617,10 @@ function saveGameServer(game) {
 function loadGameServer(puzzle) {
     try {
         return fetch(
-            '/load/game', 
+            '/load/game',
             {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -643,9 +645,10 @@ function loadGameServer(puzzle) {
 function saveShareServer(game) {
     try {
         fetch(
-            '/save/share', 
+            '/save/share',
             {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
