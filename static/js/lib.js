@@ -387,6 +387,9 @@ async function drawGameBoard(animation=false) {
             tile_type.classList.add('true')
             tile_guess.share_emoji_string+="🟩"
         }
+        else if (card.type_en.split(' ').some(element => TARGET_CARD.type_en.split(' ').includes(element))){
+            tile_guess.share_emoji_string+="🟨"
+        }
         else if (card.type_en != TARGET_CARD.type_en && card.subtype_en != TARGET_CARD.subtype_en) {
             tile_type.classList.add('false')
             tile_guess.share_emoji_string+="🟥"
