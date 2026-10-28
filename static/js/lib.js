@@ -369,6 +369,9 @@ async function drawGameBoard(animation=false) {
         }
         if (card.type_en == TARGET_CARD.type_en) {
             guess_type.classList.add('true')
+        } else if (card.type_en.split(' ').some(element => TARGET_CARD.type_en.split(' ').includes(element))){
+            guess_type.classList.add('partial')
+            tile_type.classList.add('neither')
         } else {
             guess_type.classList.add('false')
         }
